@@ -31,6 +31,27 @@ Explore how changing a lens mass distribution, source position, or observing con
 - Compare a responsive browser approximation with a numerical image calculated by local PyAutoLens. The last calculated image remains visible while an update is pending.
 - Start with four configurations: **Einstein ring, near-axis double arcs, off-axis double images, and Einstein cross**. Each preset sets model parameters and triggers a fresh calculation.
 
+
+#### Redshift and camera comparisons
+
+![Deflection side view: zₗ = 0.45, zₛ = 1.97](docs/screenshots/15-geometry-side-redshifts.jpg)
+
+*Deflection side view: zₗ = 0.45, zₛ = 1.97.*
+
+![Observer view of the same configuration](docs/screenshots/16-geometry-observer.jpg)
+
+*Observer view of the same configuration.*
+
+![Cosmic view: zₗ = 0.85, zₛ = 1.97](docs/screenshots/17-geometry-higher-lens-redshift.jpg)
+
+*Cosmic view: zₗ = 0.85, zₛ = 1.97.*
+
+![Side-view comparison: the lens plane moves](docs/screenshots/18-geometry-side-comparison.jpg)
+
+*Side-view comparison: the lens plane moves.*
+
+The home screenshot exposes the actual redshift, Einstein-radius, lens-position and mass-shape sliders. The comparisons hold θE = 1.00″, source position and mass shape fixed. Redshifts move the illustrative planes and are passed to PyAutoLens galaxy metadata; they do not infer a new physical-mass normalization. Ray paths and plane distances are teaching illustrations, not cosmologically scaled distances.
+
 ### 2. Parameter-driven forward simulation
 
 32 controls are organized into four expandable groups:
@@ -65,6 +86,101 @@ Inspect a selected product at a larger scale, switch scientific colourmaps, add 
 | Lens physics | 12 | Convergence κ, potential ψ, x / y deflections and magnitude, shear γ₁ / γ₂ and magnitude, signed magnification μ, Jacobian determinant, tangential / radial eigenvalues |
 
 Browse a standard 12-image panel or the five categories. Products are requested as needed by the current view. Scientific plots include coordinates, numerical colourbars and units, using the installed PyAutoArray colourmap. Calculations also provide critical-curve and caustic overlay data.
+
+
+#### Product gallery
+
+Expand each group to inspect the actual interface screenshots. Together these views cover all five categories, beyond the standard panel.
+
+<details>
+<summary>Standard diagnostics: lower six panels</summary>
+
+![Standard diagnostics: lower six panels](docs/screenshots/05-products-standard-lower.jpg)
+
+Lensed source, source-plane zooms, normalized residuals and χ² complement the first six panels.
+
+</details>
+
+<details>
+<summary>Observation and preprocessing</summary>
+
+![Observation and preprocessing](docs/screenshots/06-products-observation.jpg)
+
+Simulated observation, noise and signal-to-noise describe the mock measurement.
+
+</details>
+
+<details>
+<summary>PSF, mask and masked observation</summary>
+
+![PSF, mask and masked observation](docs/screenshots/07-products-observation-lower.jpg)
+
+The Gaussian PSF represents image blur; the circular mask selects pixels used by the teaching fit.
+
+</details>
+
+<details>
+<summary>Model and components</summary>
+
+![Model and components](docs/screenshots/08-products-model.jpg)
+
+Compare the ideal model with the PSF-convolved image and foreground lens light.
+
+</details>
+
+<details>
+<summary>Source and lens-light decomposition</summary>
+
+![Source and lens-light decomposition](docs/screenshots/09-products-model-lower.jpg)
+
+Inspect convolved and unconvolved lensed source, source-plane brightness, and lens-light-subtracted data.
+
+</details>
+
+<details>
+<summary>Residual and likelihood diagnostics</summary>
+
+![Residual and likelihood diagnostics](docs/screenshots/10-products-residuals.jpg)
+
+Residuals, normalized residuals, per-pixel χ² and residual flux fraction use the same noisy simulated observation. Non-zero residuals here are generated noise, not evidence of a completed research fit.
+
+</details>
+
+<details>
+<summary>Logarithmic display</summary>
+
+![Logarithmic display](docs/screenshots/11-products-log.jpg)
+
+The log model makes faint extended structure easier to inspect; it is a display transform of the same model.
+
+</details>
+
+<details>
+<summary>Lens physics: convergence, potential and deflections</summary>
+
+![Lens physics: convergence, potential and deflections](docs/screenshots/12-products-physics.jpg)
+
+κ traces projected lensing strength; ψ and α describe the potential and deflection field.
+
+</details>
+
+<details>
+<summary>Lens physics: deflection and shear</summary>
+
+![Lens physics: deflection and shear](docs/screenshots/13-products-physics-middle.jpg)
+
+Deflection magnitude and shear components reveal how the lens mapping varies across the field.
+
+</details>
+
+<details>
+<summary>Lens physics: magnification and Jacobian</summary>
+
+![Lens physics: magnification and Jacobian](docs/screenshots/14-products-physics-lower.jpg)
+
+Signed magnification, Jacobian determinant and tangential/radial eigenvalues describe image parity and the local mapping near critical regions.
+
+</details>
 
 ### 5. Export and reproduce experiments
 

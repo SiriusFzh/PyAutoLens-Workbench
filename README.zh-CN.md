@@ -31,6 +31,27 @@
 - 并列显示快速的浏览器近似预览和本机 PyAutoLens 精确数值计算图。后端计算期间保留上一帧，显示计算状态。
 - 四个起始构型：**爱因斯坦环、近轴双弧、离轴双像、爱因斯坦十字**。预设填写模型参数，随后重新计算图像。
 
+
+#### 红移与观察角度对照
+
+![偏折侧视图：zₗ = 0.45，zₛ = 1.97](docs/screenshots/15-geometry-side-redshifts.jpg)
+
+*偏折侧视图：zₗ = 0.45，zₛ = 1.97.*
+
+![同一构型的观测者视角](docs/screenshots/16-geometry-observer.jpg)
+
+*同一构型的观测者视角.*
+
+![宇宙视角：zₗ = 0.85，zₛ = 1.97](docs/screenshots/17-geometry-higher-lens-redshift.jpg)
+
+*宇宙视角：zₗ = 0.85，zₛ = 1.97.*
+
+![侧视对照：透镜平面位置改变](docs/screenshots/18-geometry-side-comparison.jpg)
+
+*侧视对照：透镜平面位置改变.*
+
+首页截图展开了红移、爱因斯坦半径、透镜位置和质量形状等实际滑块。以上对照固定 θE = 1.00″、源位置和质量形状，只改变红移或相机角度。红移移动示意平面并传入 PyAutoLens 星系元数据，不会自动根据物理质量重新归一化偏折尺度。光线路径和平面距离是教学示意，未按宇宙学距离等比例绘制。
+
 ### 2. 参数驱动的正向模拟
 
 32 个参数分为四组，界面按需展开：
@@ -65,6 +86,101 @@
 | 透镜物理量 | 12 | 汇聚度 κ、透镜势 ψ、偏折角 x / y 分量与模长、剪切 γ₁ / γ₂ 与模长、有符号放大率 μ、Jacobian 行列式、切向 / 径向本征值 |
 
 支持标准 12 图组和分类浏览；按当前视图请求产品。科学图有坐标、数值色条和单位，色表取自安装的 PyAutoArray。临界曲线和焦散叠加数据也随计算结果提供。
+
+
+#### 科学产物分组图集
+
+展开下面各组可查看真实操作截图，涵盖全部五个类别，而不仅是标准图组的前六幅。
+
+<details>
+<summary>标准诊断组：下六幅图</summary>
+
+![标准诊断组：下六幅图](docs/screenshots/05-products-standard-lower.jpg)
+
+源光模型、不同缩放的源平面、归一化残差与 χ²，补全标准图组后六幅图。
+
+</details>
+
+<details>
+<summary>观测与预处理</summary>
+
+![观测与预处理](docs/screenshots/06-products-observation.jpg)
+
+合成观测、噪声与信噪比用于检查模拟测量。
+
+</details>
+
+<details>
+<summary>PSF、掩膜与掩膜观测</summary>
+
+![PSF、掩膜与掩膜观测](docs/screenshots/07-products-observation-lower.jpg)
+
+高斯 PSF 表示图像模糊，圆形掩膜选择教学拟合使用的像素。
+
+</details>
+
+<details>
+<summary>模型与分量</summary>
+
+![模型与分量](docs/screenshots/08-products-model.jpg)
+
+比较理想模型、PSF 卷积图像与前景透镜星系光。
+
+</details>
+
+<details>
+<summary>源光与透镜光分解</summary>
+
+![源光与透镜光分解](docs/screenshots/09-products-model-lower.jpg)
+
+检查卷积前后的被透镜化源光、源平面亮度，以及扣除透镜光后的数据。
+
+</details>
+
+<details>
+<summary>残差与似然诊断</summary>
+
+![残差与似然诊断](docs/screenshots/10-products-residuals.jpg)
+
+残差、归一化残差、逐像素 χ² 和残差通量比例来自同一带噪合成观测；这里的非零残差是模拟噪声，并不代表已经完成科研拟合。
+
+</details>
+
+<details>
+<summary>对数显示</summary>
+
+![对数显示](docs/screenshots/11-products-log.jpg)
+
+对数模型便于查看较暗的延展结构，是同一模型的显示变换。
+
+</details>
+
+<details>
+<summary>透镜物理：汇聚度、透镜势与偏折角</summary>
+
+![透镜物理：汇聚度、透镜势与偏折角](docs/screenshots/12-products-physics.jpg)
+
+κ 表示投影透镜强度，ψ 与 α 描述透镜势和偏折场。
+
+</details>
+
+<details>
+<summary>透镜物理：偏折与剪切</summary>
+
+![透镜物理：偏折与剪切](docs/screenshots/13-products-physics-middle.jpg)
+
+偏折模长与剪切分量展示视场中透镜映射的变化。
+
+</details>
+
+<details>
+<summary>透镜物理：放大率与 Jacobian</summary>
+
+![透镜物理：放大率与 Jacobian](docs/screenshots/14-products-physics-lower.jpg)
+
+有符号放大率、Jacobian 行列式及切向 / 径向本征值用于查看像的奇偶性及临界区域附近的局部映射。
+
+</details>
 
 ### 5. 科研数据导出与实验复现
 
