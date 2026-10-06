@@ -1,0 +1,4535 @@
+<!doctype html>
+<html lang="en" data-visualize-standalone>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src 'self' file: blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>强引力透镜的三维几何</title>
+<style>:root{color-scheme:light;background:#fafaf8}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{box-sizing:border-box;padding:0;background:inherit}iframe{display:block;width:100%;height:100vh;margin:0;border:0}</style>
+</head>
+<body>
+<iframe id="codex-visualization" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer" title="强引力透镜的三维几何" data-srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-visualize-standalone&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src &#x27;self&#x27; file: blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;强引力透镜的三维几何&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 10px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover,
+.nav-link:not(:disabled):not([aria-disabled=&quot;true&quot;]):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled=&quot;true&quot;] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type=&quot;file&quot;]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type=&quot;color&quot;] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;week&quot;]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: &quot;&quot;;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 12px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type=&quot;application/json&quot; id=&quot;codex-visualization-widget-state&quot;&gt;__CODEX_VISUALIZATION_WIDGET_STATE__&lt;/script&gt;
+&lt;script&gt;(() =&gt; {
+  const root = document.documentElement;
+  const mediaQuery = globalThis.matchMedia(&quot;(prefers-color-scheme: dark)&quot;);
+  const apply = Reflect.apply;
+  const isArray = Array.isArray;
+  const hasOwn = Object.hasOwn;
+  const parentWindow = globalThis.parent;
+  const stringify = JSON.stringify;
+  const parse = JSON.parse;
+  const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
+  const initialStateElement = document.getElementById(
+    &quot;codex-visualization-widget-state&quot;,
+  );
+  const initialGlobals = parse(initialStateElement?.textContent ?? &quot;{}&quot;);
+  initialStateElement?.remove();
+  /** @type {Record&lt;string, unknown&gt; | null} */
+  let state = initialGlobals.widgetState ?? null;
+  const statePersistence = initialGlobals.statePersistence ?? &quot;none&quot;;
+  let nextStateRequestId = 0;
+  /** @type {Map&lt;number, { resolve: () =&gt; void; reject: (error: Error) =&gt; void; timeout: ReturnType&lt;typeof globalThis.setTimeout&gt;; serializedState: string }&gt;} */
+  const pendingStateWrites = new Map();
+  const persistenceError = () =&gt;
+    Object.assign(
+      new Error(&quot;The host could not persist the widget state update&quot;),
+      {
+        code: -32000,
+        data: { code: &quot;widget_state_persistence_failed&quot;, retryable: false },
+      },
+    );
+  /**
+   * @param {object} prototype
+   * @param {string} property
+   */
+  const getPrototypeGetter = (prototype, property) =&gt; {
+    // oxlint-disable-next-line typescript/unbound-method -- invoked through captured Reflect.apply
+    const getter = Object.getOwnPropertyDescriptor(prototype, property)?.get;
+    if (getter == null) {
+      throw new Error(`Missing ${property} getter`);
+    }
+    return getter;
+  };
+  const getMessageData = getPrototypeGetter(MessageEvent.prototype, &quot;data&quot;);
+  const getMessagePorts = getPrototypeGetter(MessageEvent.prototype, &quot;ports&quot;);
+  const getMessageSource = getPrototypeGetter(MessageEvent.prototype, &quot;source&quot;);
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const addHostMessageListener = MessagePort.prototype.addEventListener;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const postHostMessage = MessagePort.prototype.postMessage;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const startHostPort = MessagePort.prototype.start;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const stopMessagePropagation = Event.prototype.stopImmediatePropagation;
+  /** @type {MessagePort | null} */
+  let hostPort = null;
+  const postToHost = (type, payload) =&gt; {
+    if (hostPort != null) {
+      apply(postHostMessage, hostPort, [{ type, ...payload }]);
+    }
+  };
+  const openExternal = ({ href }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;open-external&quot;, { href });
+    }
+  };
+  const sendFollowUpMessage = ({ context, prompt, title }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;follow-up&quot;, { context, prompt, title });
+    }
+    return Promise.resolve();
+  };
+  /**
+   * @param {Record&lt;string, unknown&gt; | ((previous: Record&lt;string, unknown&gt; | null) =&gt; Record&lt;string, unknown&gt;)} next
+   * @returns {Promise&lt;void&gt;}
+   */
+  const setWidgetState = async (next) =&gt; {
+    const nextState = typeof next === &quot;function&quot; ? next(state) : next;
+    if (
+      nextState == null ||
+      typeof nextState !== &quot;object&quot; ||
+      isArray(nextState)
+    ) {
+      throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+    }
+    const inputState = stringify(
+      nextState,
+      (_key, /** @type {unknown} */ value) =&gt; {
+        if (
+          typeof value === &quot;undefined&quot; ||
+          typeof value === &quot;function&quot; ||
+          typeof value === &quot;symbol&quot; ||
+          (typeof value === &quot;number&quot; &amp;&amp; !Number.isFinite(value))
+        ) {
+          throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+        }
+        return value;
+      },
+    );
+    const parsedState = parse(inputState);
+    if (
+      parsedState == null ||
+      typeof parsedState !== &quot;object&quot; ||
+      isArray(parsedState)
+    ) {
+      throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+    }
+    const storedState = {
+      modelContent: null,
+      privateContent: null,
+      ...parsedState,
+    };
+    const serializedState = stringify(storedState);
+    if (encode(serializedState).length &gt; 16 * 1024) {
+      throw new TypeError(
+        &quot;Widget state must be a JSON object of at most 16 KiB&quot;,
+      );
+    }
+    if (
+      hasOwn(storedState, &quot;imageIds&quot;) &amp;&amp;
+      (!isArray(storedState.imageIds) ||
+        storedState.imageIds.some(
+          (/** @type {unknown} */ id) =&gt; typeof id !== &quot;string&quot;,
+        ))
+    ) {
+      throw new TypeError(&quot;Widget state imageIds must be an array of strings&quot;);
+    }
+    if (storedState.imageIds?.length &gt; 0) {
+      throw Object.assign(
+        new TypeError(&quot;Visualization state does not support image attachments&quot;),
+        { code: -32602, data: { code: &quot;images_unsupported&quot; } },
+      );
+    }
+    state = storedState;
+    globalThis.openai.widgetState = state;
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: { widgetState: state } },
+      }),
+    );
+    if (statePersistence === &quot;none&quot;) {
+      throw persistenceError();
+    }
+    const id = ++nextStateRequestId;
+    return new Promise((resolve, reject) =&gt; {
+      const timeout = globalThis.setTimeout(() =&gt; {
+        pendingStateWrites.delete(id);
+        reject(persistenceError());
+      }, 30_000);
+      pendingStateWrites.set(id, { resolve, reject, timeout, serializedState });
+      postToHost(&quot;widget-state-write&quot;, { id, state: serializedState });
+    });
+  };
+  const syncTheme = () =&gt; {
+    const theme = mediaQuery.matches ? &quot;dark&quot; : &quot;light&quot;;
+    root.dataset.theme = theme;
+    globalThis.openai = {
+      ...globalThis.openai,
+      openExternal,
+      sendFollowUpMessage,
+      setWidgetState,
+      theme,
+      visualizationStyleVariables: {},
+      visualizationTheme: theme,
+      widgetState: state,
+      statePersistence,
+      stateModelContext: &quot;none&quot;,
+    };
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: globalThis.openai },
+      }),
+    );
+  };
+  const sendHeight = () =&gt; {
+    postToHost(&quot;height&quot;, {
+      height: Math.ceil(
+        Math.max(
+          document.body.scrollHeight,
+          document.body.getBoundingClientRect().height,
+        ),
+      ),
+    });
+  };
+
+  globalThis.addEventListener(
+    &quot;message&quot;,
+    (event) =&gt; {
+      const data = apply(getMessageData, event, []);
+      const ports = apply(getMessagePorts, event, []);
+      const source = apply(getMessageSource, event, []);
+      if (
+        hostPort != null ||
+        source !== parentWindow ||
+        typeof data !== &quot;object&quot; ||
+        data?.type !== &quot;codex-visualization-initialize&quot; ||
+        !isArray(ports) ||
+        ports.length !== 1
+      ) {
+        return;
+      }
+      apply(stopMessagePropagation, event, []);
+      const nextHostPort = ports[0];
+      try {
+        apply(addHostMessageListener, nextHostPort, [
+          &quot;message&quot;,
+          (event) =&gt; {
+            const data = apply(getMessageData, event, []);
+            if (typeof data === &quot;object&quot; &amp;&amp; data?.type === &quot;measure&quot;) {
+              sendHeight();
+            } else if (
+              typeof data === &quot;object&quot; &amp;&amp;
+              data?.type === &quot;widget-state-result&quot;
+            ) {
+              /** @type {unknown} */
+              const id = data.id;
+              if (typeof id !== &quot;number&quot;) {
+                return;
+              }
+              const pending = pendingStateWrites.get(id);
+              if (pending != null) {
+                pendingStateWrites.delete(id);
+                globalThis.clearTimeout(pending.timeout);
+                if (data.ok === true) {
+                  pending.resolve();
+                } else {
+                  pending.reject(persistenceError());
+                }
+              }
+            }
+          },
+        ]);
+        apply(startHostPort, nextHostPort, []);
+      } catch {
+        return;
+      }
+      hostPort = nextHostPort;
+      for (const [id, { serializedState }] of pendingStateWrites) {
+        postToHost(&quot;widget-state-write&quot;, { id, state: serializedState });
+      }
+      sendHeight();
+    },
+    { capture: true },
+  );
+  document.currentScript?.remove();
+  mediaQuery.addEventListener(&quot;change&quot;, syncTheme);
+  globalThis.addEventListener(&quot;click&quot;, (event) =&gt; {
+    if (event.defaultPrevented) {
+      return;
+    }
+    let element = null;
+    if (event.target instanceof globalThis.Element) {
+      element = event.target;
+    } else if (event.target instanceof globalThis.Node) {
+      element = event.target.parentElement;
+    }
+    const link = element?.closest(&quot;a[href]&quot;);
+    const href = link?.getAttribute(&quot;href&quot;);
+    if (href == null) {
+      return;
+    }
+    if (href.startsWith(&quot;#&quot;)) {
+      let id;
+      try {
+        id = decodeURIComponent(href.slice(1));
+      } catch {
+        return;
+      }
+      const target = id.length === 0 ? root : document.getElementById(id);
+      if (
+        target == null ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      event.preventDefault();
+      postToHost(&quot;scroll-to&quot;, {
+        top: target.getBoundingClientRect().top + globalThis.scrollY,
+      });
+      return;
+    }
+    event.preventDefault();
+    openExternal({ href });
+  });
+  new ResizeObserver(sendHeight).observe(document.body);
+  syncTheme();
+})();
+&lt;/script&gt;
+&lt;div id=&quot;lens-planes-3d&quot;&gt;
+  &lt;div id=&quot;lp3d-state-controls&quot; hidden aria-hidden=&quot;true&quot;&gt;
+    &lt;input id=&quot;lp3d-source-x&quot; type=&quot;hidden&quot; value=&quot;0.45&quot;&gt;
+    &lt;input id=&quot;lp3d-source-y&quot; type=&quot;hidden&quot; value=&quot;0.30&quot;&gt;
+    &lt;select id=&quot;lp3d-lens-model&quot;&gt;
+      &lt;option value=&quot;point&quot;&gt;轴对称：环 / 双像&lt;/option&gt;
+      &lt;option value=&quot;cross&quot;&gt;SIS + 外部剪切：四像&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;span id=&quot;lp3d-shear-control&quot;&gt;&lt;/span&gt;
+    &lt;input id=&quot;lp3d-shear&quot; type=&quot;hidden&quot; value=&quot;0.18&quot;&gt;
+    &lt;span id=&quot;lp3d-source-x-value&quot;&gt;&lt;/span&gt;
+    &lt;span id=&quot;lp3d-source-y-value&quot;&gt;&lt;/span&gt;
+    &lt;span id=&quot;lp3d-shear-value&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;lp3d-toolbar-row lp3d-toolbar-secondary&quot;&gt;
+    &lt;div class=&quot;lp3d-options-row&quot;&gt;
+      &lt;div class=&quot;lp3d-layer-toggles text-small&quot; id=&quot;lp3d-layer-toggles&quot; aria-label=&quot;三维图层开关&quot;&gt;
+        &lt;label class=&quot;lp3d-density-control&quot; for=&quot;lp3d-density&quot;&gt;
+          &lt;span&gt;&lt;span id=&quot;lp3d-density-label&quot;&gt;光线数&lt;/span&gt; &lt;output id=&quot;lp3d-density-value&quot; for=&quot;lp3d-density&quot;&gt;48&lt;/output&gt;&lt;/span&gt;
+          &lt;input id=&quot;lp3d-density&quot; class=&quot;form-range&quot; type=&quot;range&quot; min=&quot;20&quot; max=&quot;80&quot; step=&quot;4&quot; value=&quot;48&quot; aria-label=&quot;光线数量&quot;&gt;
+        &lt;/label&gt;
+        &lt;label&gt;&lt;input id=&quot;lp3d-show-planes&quot; type=&quot;checkbox&quot; checked&gt; &lt;span id=&quot;lp3d-show-planes-label&quot;&gt;物理平面&lt;/span&gt;&lt;/label&gt;
+        &lt;label&gt;&lt;input id=&quot;lp3d-show-redshift&quot; type=&quot;checkbox&quot; checked&gt; &lt;span id=&quot;lp3d-show-redshift-label&quot;&gt;透镜 / 源平面&lt;/span&gt;&lt;/label&gt;
+        &lt;label&gt;&lt;input id=&quot;lp3d-show-rays&quot; type=&quot;checkbox&quot; checked&gt; &lt;span id=&quot;lp3d-show-rays-label&quot;&gt;光线路径&lt;/span&gt;&lt;/label&gt;
+        &lt;label&gt;&lt;input id=&quot;lp3d-show-annotations&quot; type=&quot;checkbox&quot; checked&gt; &lt;span id=&quot;lp3d-show-annotations-label&quot;&gt;角度与距离&lt;/span&gt;&lt;/label&gt;
+      &lt;/div&gt;
+      &lt;p id=&quot;lp3d-model-explanation&quot; class=&quot;text-small text-muted&quot;&gt;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;viz-controls lp3d-view-controls&quot; aria-label=&quot;镜头视角&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;lp3d-perspective&quot;&gt;宇宙透视&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;lp3d-side&quot;&gt;偏折侧视&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;lp3d-observer&quot;&gt;观察者视角&lt;/button&gt;
+      &lt;span id=&quot;lp3d-drag-hint&quot; class=&quot;text-small&quot;&gt;拖动源星系改变位置；滚轮缩放；按住鼠标中键拖动画面&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div id=&quot;lp3d-visual-row&quot;&gt;
+    &lt;div id=&quot;lp3d-stage&quot; role=&quot;application&quot; aria-label=&quot;可旋转、可拖动源天体的强引力透镜三维几何&quot;&gt;
+      &lt;div class=&quot;lp3d-stage-badge&quot; id=&quot;lp3d-stage-badge&quot;&gt;薄透镜几何 · 非按比例绘制&lt;/div&gt;
+      &lt;div class=&quot;viz-row text-small lp3d-legend-row&quot; aria-label=&quot;图例&quot;&gt;
+        &lt;span class=&quot;lp3d-legend&quot; id=&quot;lp3d-legend-ray&quot;&gt;&lt;i data-kind=&quot;ray&quot;&gt;&lt;/i&gt;实际光束&lt;/span&gt;
+        &lt;span class=&quot;lp3d-legend&quot; id=&quot;lp3d-legend-straight&quot;&gt;&lt;i data-kind=&quot;straight&quot;&gt;&lt;/i&gt;直线 β&lt;/span&gt;
+        &lt;span class=&quot;lp3d-legend&quot; id=&quot;lp3d-legend-extension&quot;&gt;&lt;i data-kind=&quot;extension&quot;&gt;&lt;/i&gt;延长线 θ&lt;/span&gt;
+        &lt;span class=&quot;lp3d-legend&quot; id=&quot;lp3d-legend-lens&quot;&gt;&lt;i data-kind=&quot;lens&quot;&gt;&lt;/i&gt;透镜质量&lt;/span&gt;
+        &lt;span class=&quot;lp3d-legend&quot; id=&quot;lp3d-legend-source&quot;&gt;&lt;i data-kind=&quot;source&quot;&gt;&lt;/i&gt;背景源&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;lp3d-status&quot; class=&quot;card text-small&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;aside id=&quot;lp3d-observation-panel&quot; hidden aria-label=&quot;快速预览与 PyAutoLens 精确观测图&quot;&gt;
+      &lt;section class=&quot;lp3d-observation-block&quot; data-kind=&quot;preview&quot;&gt;
+        &lt;h3 id=&quot;lp3d-observation-title&quot;&gt;浏览器近似预览&lt;/h3&gt;
+        &lt;canvas id=&quot;lp3d-observation-canvas&quot; width=&quot;240&quot; height=&quot;240&quot; role=&quot;img&quot; aria-label=&quot;白底红色的浏览器近似透镜预览&quot;&gt;&lt;/canvas&gt;
+        &lt;p id=&quot;lp3d-observation-caption&quot; class=&quot;text-small&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/p&gt;
+      &lt;/section&gt;
+      &lt;section class=&quot;lp3d-observation-block&quot; data-kind=&quot;exact&quot;&gt;
+        &lt;h3 id=&quot;lp3d-exact-title&quot;&gt;PyAutoLens 精确图 · 等待计算&lt;/h3&gt;
+        &lt;div id=&quot;lp3d-exact-figure&quot;&gt;
+          &lt;div class=&quot;lp3d-exact-image-frame&quot;&gt;
+            &lt;canvas id=&quot;lp3d-exact-canvas&quot; class=&quot;is-pending&quot; width=&quot;240&quot; height=&quot;240&quot; role=&quot;img&quot; aria-label=&quot;蓝底科研色表的 PyAutoLens 精确观测图&quot;&gt;&lt;/canvas&gt;
+            &lt;img id=&quot;lp3d-pyautolens-image&quot; alt=&quot;PyAutoLens 生成的特殊点位模拟观测图&quot; hidden&gt;
+          &lt;/div&gt;
+          &lt;div id=&quot;lp3d-exact-colourbar&quot; role=&quot;img&quot; aria-label=&quot;精确观测图强度色标，蓝色为低值，红色为高值&quot;&gt;
+            &lt;div id=&quot;lp3d-exact-colourbar-bar&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;lp3d-exact-colourbar-labels&quot;&gt;
+              &lt;span id=&quot;lp3d-exact-colourbar-max&quot;&gt;—&lt;/span&gt;
+              &lt;span id=&quot;lp3d-exact-colourbar-min&quot;&gt;—&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;lp3d-exact-colourbar-unit&quot;&gt;e⁻ s⁻¹&lt;/div&gt;
+        &lt;p id=&quot;lp3d-exact-caption&quot; class=&quot;text-small&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;等待主工作台完成当前参数的精确射线追踪。&lt;/p&gt;
+      &lt;/section&gt;
+    &lt;/aside&gt;
+  &lt;/div&gt;
+
+  &lt;p class=&quot;text-small text-muted lp3d-physics-note&quot; id=&quot;lp3d-physics-note&quot;&gt;
+    空白处左键旋转，滚轮缩放，右键平移；直接拖动绿色源星系可在源平面内水平或竖直移动。连续曲线是便于观察的视觉平滑，物理计算仍采用薄透镜近似：主要偏折集中在透镜平面附近。
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #lens-planes-3d {
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 0.55rem 0.65rem 0.6rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 0.35rem 0.55rem;
+    overflow: hidden;
+    color: var(--foreground);
+    background: #ffffff;
+  }
+
+  #lens-planes-3d .lp3d-toolbar-row {
+    min-width: 0;
+    display: grid;
+    align-items: stretch;
+    gap: 0.55rem;
+  }
+
+  #lens-planes-3d .lp3d-toolbar-secondary {
+    grid-row: 1;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  #lens-planes-3d .lp3d-options-row {
+    min-width: 0;
+    display: block;
+    align-items: center;
+  }
+
+  #lens-planes-3d .lp3d-layer-toggles {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.18rem 0.38rem;
+    margin: 0;
+    min-height: 28px;
+    box-sizing: border-box;
+    padding: 0.2rem 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 0.65rem;
+    background: color-mix(in srgb, var(--background) 94%, var(--muted) 6%);
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+
+  #lens-planes-3d .lp3d-layer-toggles label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.24rem;
+    cursor: pointer;
+  }
+
+  #lens-planes-3d .lp3d-density-control {
+    gap: 0.24rem;
+    padding-right: 0.38rem;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  #lens-planes-3d .lp3d-density-control span {
+    font-size: 0.65rem;
+    line-height: 1;
+  }
+
+  #lens-planes-3d .lp3d-density-control .form-range {
+    width: 62px;
+    height: 24px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  #lens-planes-3d .lp3d-density-control .form-range::-webkit-slider-runnable-track {
+    height: 3px;
+  }
+
+  #lens-planes-3d .lp3d-density-control .form-range::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    margin-top: -5.5px;
+  }
+
+  #lens-planes-3d .lp3d-density-control .form-range::-moz-range-track {
+    height: 3px;
+  }
+
+  #lens-planes-3d .lp3d-density-control .form-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+  }
+
+  #lp3d-model-explanation {
+    display: none;
+  }
+
+  #lens-planes-3d .lp3d-view-controls {
+    margin: 0;
+    gap: 0.28rem;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    min-width: 0;
+  }
+
+  #lens-planes-3d .lp3d-view-controls .btn {
+    min-height: 28px;
+    padding: 0.26rem 0.5rem;
+    border-radius: 0.65rem;
+    font-size: 0.69rem;
+    white-space: nowrap;
+  }
+
+  #lp3d-drag-hint {
+    display: none;
+  }
+
+  #lp3d-stage {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: none;
+    touch-action: none;
+  }
+
+  #lp3d-visual-row {
+    grid-row: 2;
+    grid-column: 1;
+    display: block;
+    position: relative;
+    min-height: 0;
+    height: 100%;
+  }
+
+  #lp3d-visual-row.has-observation {
+    display: block;
+  }
+
+  #lp3d-observation-panel {
+    position: absolute;
+    z-index: 4;
+    top: 0.75rem;
+    left: 0.75rem;
+    width: 176px;
+    margin: 0;
+    padding: 0.5rem;
+    display: grid;
+    gap: 0.42rem;
+    max-height: calc(100% - 1.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    background: rgb(255 255 255 / 95%);
+    backdrop-filter: blur(4px);
+  }
+
+  #lp3d-observation-panel[hidden] {
+    display: none;
+  }
+
+  #lp3d-observation-panel h3,
+  #lp3d-observation-panel p,
+  #lp3d-observation-panel section {
+    margin: 0;
+  }
+
+  .lp3d-observation-block {
+    display: grid;
+    gap: 0.22rem;
+    min-width: 0;
+  }
+
+  .lp3d-observation-block + .lp3d-observation-block {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  #lp3d-observation-panel h3 {
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+
+  #lp3d-observation-caption,
+  #lp3d-exact-caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  #lp3d-observation-canvas,
+  #lp3d-exact-canvas,
+  #lp3d-pyautolens-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    background: #ffffff;
+  }
+
+  #lp3d-exact-canvas {
+    background: #060086;
+  }
+
+  #lp3d-exact-figure {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 48px;
+    align-items: stretch;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .lp3d-exact-image-frame {
+    display: grid;
+    min-width: 0;
+    align-self: start;
+  }
+
+  .lp3d-exact-image-frame &gt; * {
+    grid-area: 1 / 1;
+  }
+
+  #lp3d-exact-colourbar {
+    display: grid;
+    grid-template-columns: 8px minmax(0, 1fr);
+    align-items: stretch;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  #lp3d-exact-colourbar-bar {
+    min-height: 100%;
+    border: 1px solid var(--border);
+    background: linear-gradient(to top, rgb(4 0 108), rgb(29 80 235), rgb(48 155 80), rgb(234 223 2), rgb(254 88 15), rgb(215 5 13));
+  }
+
+  #lp3d-exact-colourbar-labels {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--foreground);
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  #lp3d-exact-colourbar-labels span {
+    white-space: nowrap;
+  }
+
+  #lp3d-exact-colourbar-unit {
+    color: var(--muted-foreground);
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+    text-align: right;
+  }
+
+  #lp3d-exact-canvas.is-pending {
+    opacity: 0.68;
+    filter: saturate(0.72);
+  }
+
+  #lp3d-exact-canvas.is-stale {
+    opacity: 0.78;
+    filter: saturate(0.68);
+  }
+
+  #lp3d-observation-canvas[hidden],
+  #lp3d-exact-canvas[hidden],
+  #lp3d-pyautolens-image[hidden] {
+    display: none;
+  }
+
+  #lp3d-stage.is-dragging {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--viz-series-3) 70%, transparent);
+  }
+
+  #lp3d-stage .lp3d-stage-badge {
+    position: absolute;
+    z-index: 2;
+    left: auto;
+    right: 0.75rem;
+    top: 0.65rem;
+    color: rgb(74 85 104 / 72%);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+
+  #lp3d-stage canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #lens-planes-3d .lp3d-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  #lens-planes-3d .lp3d-legend-row {
+    position: absolute;
+    z-index: 3;
+    right: 0.65rem;
+    bottom: 0.65rem;
+    max-width: calc(100% - 1.3rem);
+    margin: 0;
+    padding: 0.4rem 0.55rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.32rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 0.65rem;
+    background: rgb(255 255 255 / 90%);
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+  }
+
+  #lens-planes-3d .lp3d-legend i {
+    width: 0.75rem;
+    height: 0.75rem;
+    display: inline-block;
+  }
+
+  #lens-planes-3d [data-kind=&quot;ray&quot;] { background: var(--viz-series-1); }
+  #lens-planes-3d [data-kind=&quot;straight&quot;] { background: var(--viz-series-6); }
+  #lens-planes-3d [data-kind=&quot;extension&quot;] { background: var(--viz-series-5); }
+  #lens-planes-3d [data-kind=&quot;lens&quot;] { background: var(--viz-series-2); }
+  #lens-planes-3d [data-kind=&quot;source&quot;] { background: var(--viz-series-3); }
+  #lens-planes-3d [data-kind=&quot;slice&quot;] { background: #3568d4; }
+
+  #lp3d-status {
+    position: absolute;
+    z-index: 3;
+    left: calc(176px + 1.5rem);
+    right: 43%;
+    bottom: 0.48rem;
+    min-height: 0;
+    max-height: 30px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-color: transparent;
+    background: transparent !important;
+    box-shadow: none;
+    backdrop-filter: none;
+    color: rgb(31 41 55 / 76%);
+    font-size: 0.58rem;
+    line-height: 1.25;
+    text-shadow: 0 1px 0 #fff;
+    pointer-events: none;
+  }
+
+  #lens-planes-3d .lp3d-physics-note {
+    display: none;
+  }
+
+  @media (max-width: 560px) {
+    #lp3d-drag-hint {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    #lp3d-stage {
+      height: 460px;
+    }
+  }
+
+  @media (min-width: 561px) and (max-width: 860px) {
+    #lp3d-observation-panel {
+      width: min(176px, calc(100% - 1.5rem));
+    }
+  }
+
+  /* Swiss International / IKB interface layer.  Scientific series colours stay
+     categorical; only the application chrome is reduced to one accent colour. */
+  :root {
+    color-scheme: light;
+    --background: #fafaf8;
+    --foreground: #0a0a0a;
+    --card: #fafaf8;
+    --card-foreground: #0a0a0a;
+    --popover: #fafaf8;
+    --popover-foreground: #0a0a0a;
+    --primary: #002fa7;
+    --primary-foreground: #ffffff;
+    --secondary: #ffffff;
+    --secondary-foreground: #0a0a0a;
+    --muted: #f0f0ee;
+    --muted-foreground: #737373;
+    --accent: #e6ebf7;
+    --accent-foreground: #002fa7;
+    --border: #d4d4d2;
+    --input: #d4d4d2;
+    --ring: #002fa7;
+    --font-sans: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, sans-serif;
+    --radius: 0;
+    --radius-sm: 0;
+    --radius-md: 0;
+    --radius-lg: 0;
+    --radius-2xl: 0;
+    --shadow-sm: none;
+    --viz-series-1: rgb(51 156 255);
+  }
+
+  html &gt; body {
+    color: var(--foreground);
+    background: var(--background) !important;
+  }
+
+  .card,
+  .tooltip,
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select,
+  .viz-badge {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .card {
+    border: 1px solid var(--border);
+  }
+
+  .btn-primary,
+  .btn-primary:not(:disabled):hover {
+    border-color: var(--primary);
+    color: #ffffff;
+    background: var(--primary);
+  }
+
+  #lens-planes-3d {
+    background: var(--background);
+  }
+
+  #lens-planes-3d .lp3d-toolbar-secondary {
+    grid-template-columns: minmax(0, 8fr) minmax(280px, 4fr);
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  #lens-planes-3d .lp3d-layer-toggles {
+    border-color: var(--border);
+    border-radius: 0;
+    background: var(--muted);
+  }
+
+  #lens-planes-3d .lp3d-layer-toggles input[type=&quot;checkbox&quot;] {
+    accent-color: var(--primary);
+  }
+
+  #lens-planes-3d .lp3d-density-control .form-range {
+    background: none;
+  }
+
+  #lens-planes-3d .lp3d-density-control .form-range::-webkit-slider-runnable-track,
+  #lens-planes-3d .lp3d-density-control .form-range::-moz-range-track {
+    background: var(--border);
+  }
+
+  #lens-planes-3d .lp3d-density-control .form-range::-webkit-slider-thumb,
+  #lens-planes-3d .lp3d-density-control .form-range::-moz-range-thumb {
+    border-radius: 0;
+    border-color: #ffffff;
+    background: var(--primary);
+  }
+
+  #lens-planes-3d .lp3d-view-controls {
+    gap: 0;
+  }
+
+  #lens-planes-3d .lp3d-view-controls .btn {
+    border-radius: 0;
+    font-weight: 600;
+  }
+
+  #lens-planes-3d .lp3d-view-controls .btn + .btn {
+    border-left: 0;
+  }
+
+  #lp3d-stage {
+    border-color: var(--border);
+    border-radius: 0;
+    background: #ffffff;
+  }
+
+  #lp3d-observation-panel {
+    border-radius: 0;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    overflow: visible;
+  }
+
+  #lp3d-observation-panel h3 {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  #lp3d-observation-canvas,
+  #lp3d-exact-canvas,
+  #lp3d-pyautolens-image {
+    border-color: var(--border);
+    border-radius: 0;
+  }
+
+  #lp3d-stage.is-dragging {
+    box-shadow: none;
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+  }
+
+  #lp3d-stage .lp3d-stage-badge {
+    color: var(--foreground);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  #lens-planes-3d .lp3d-legend-row {
+    left: calc(176px + 1.5rem);
+    right: 0.65rem;
+    bottom: 0.55rem;
+    width: auto;
+    height: 18px;
+    max-width: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    align-items: center;
+    gap: 0.35rem;
+    border: 0 !important;
+    border-radius: 0;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  #lens-planes-3d .lp3d-legend-row::before,
+  #lens-planes-3d .lp3d-legend-row::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  #lens-planes-3d .lp3d-legend {
+    min-width: 0;
+    justify-content: center;
+    gap: 0.28rem;
+    overflow: visible;
+    white-space: nowrap;
+    font-size: 0.58rem;
+    line-height: 18px;
+  }
+
+  #lens-planes-3d .lp3d-legend i {
+    width: 0.62rem;
+    height: 0.62rem;
+    flex: 0 0 0.62rem;
+  }
+
+  #lp3d-status {
+    left: calc(176px + 1.5rem);
+    right: 0.65rem;
+    bottom: 2.15rem;
+    width: auto;
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
+    box-sizing: border-box;
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    font-size: 0.58rem;
+    line-height: 20px;
+    white-space: nowrap;
+    text-shadow: none;
+  }
+&lt;/style&gt;
+
+&lt;script type=&quot;application/x-obsolete&quot;&gt;
+  import * as THREE from &quot;https://esm.sh/three@0.161.0&quot;;
+  import { OrbitControls } from &quot;https://esm.sh/three@0.161.0/examples/jsm/controls/OrbitControls.js&quot;;
+
+  const root = document.getElementById(&quot;lens-planes-3d&quot;);
+  const stage = document.getElementById(&quot;lp3d-stage&quot;);
+  const offsetInput = document.getElementById(&quot;lp3d-offset&quot;);
+  const offsetValue = document.getElementById(&quot;lp3d-offset-value&quot;);
+  const status = document.getElementById(&quot;lp3d-status&quot;);
+
+  function resolvedColor(variable) {
+    const probe = document.createElement(&quot;span&quot;);
+    probe.style.color = `var(${variable})`;
+    probe.style.display = &quot;none&quot;;
+    root.appendChild(probe);
+    const color = getComputedStyle(probe).color;
+    probe.remove();
+    return color;
+  }
+
+  const colors = {
+    foreground: resolvedColor(&quot;--foreground&quot;),
+    muted: resolvedColor(&quot;--muted-foreground&quot;),
+    image: resolvedColor(&quot;--viz-series-4&quot;),
+    lens: resolvedColor(&quot;--viz-series-2&quot;),
+    source: resolvedColor(&quot;--viz-series-3&quot;),
+    ray: resolvedColor(&quot;--viz-series-1&quot;),
+    accent: resolvedColor(&quot;--viz-series-5&quot;)
+  };
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  stage.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.target.set(0, 0, 4.4);
+
+  const observerZ = 0;
+  const imagePlaneZ = 1.15;
+  const lensPlaneZ = 4;
+  const sourcePlaneZ = 8;
+  const planeSize = 5.6;
+
+  const world = new THREE.Group();
+  scene.add(world);
+
+  function planeAt(z, color, opacity) {
+    const geometry = new THREE.PlaneGeometry(planeSize, planeSize);
+    const material = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(color),
+      transparent: true,
+      opacity,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.z = z;
+    world.add(mesh);
+
+    const edges = new THREE.LineSegments(
+      new THREE.EdgesGeometry(geometry),
+      new THREE.LineBasicMaterial({ color: new THREE.Color(color), transparent: true, opacity: 0.85 })
+    );
+    edges.position.z = z;
+    world.add(edges);
+    return mesh;
+  }
+
+  const genericRedshiftPlanes = [
+    { redshift: 0.25, worldZ: 2.0 },
+    { redshift: 0.75, worldZ: 6.0 },
+    { redshift: 1.25, worldZ: 10.0 }
+  ];
+
+  genericRedshiftPlanes.forEach((slice) =&gt; planeAt(slice.worldZ, colors.muted, 0.055));
+  planeAt(imagePlaneZ, colors.image, 0.12);
+  planeAt(lensPlaneZ, colors.lens, 0.12);
+  planeAt(sourcePlaneZ, colors.source, 0.12);
+
+  function makeLabel(text, color, width = 4.8, height = 0.7) {
+    const canvas = document.createElement(&quot;canvas&quot;);
+    canvas.width = 768;
+    canvas.height = 112;
+    const context = canvas.getContext(&quot;2d&quot;);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.font = &quot;500 42px &#x27;Segoe UI&#x27;, &#x27;Microsoft YaHei&#x27;, sans-serif&quot;;
+    context.fillStyle = color;
+    context.textAlign = &quot;center&quot;;
+    context.textBaseline = &quot;middle&quot;;
+    context.fillText(text, canvas.width / 2, canvas.height / 2);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false }));
+    sprite.scale.set(width, height, 1);
+    sprite.renderOrder = 20;
+    world.add(sprite);
+    return sprite;
+  }
+
+  const observerLabel = makeLabel(&quot;观察者 O：z = 0&quot;, colors.foreground);
+  observerLabel.position.set(0, 1.15, observerZ - 0.25);
+  const imageLabel = makeLabel(&quot;像平面 / 天空角坐标 θ&quot;, colors.image);
+  imageLabel.position.set(0, 3.15, imagePlaneZ);
+  const lensLabel = makeLabel(&quot;透镜平面 zₗ（前景星系）&quot;, colors.lens);
+  lensLabel.position.set(0, 3.15, lensPlaneZ);
+  const sourceLabel = makeLabel(&quot;源平面 zₛ（背景星系）&quot;, colors.source);
+  sourceLabel.position.set(0, 3.15, sourcePlaneZ);
+
+  genericRedshiftPlanes.forEach((slice) =&gt; {
+    const label = makeLabel(`普通红移切片 z = ${slice.redshift.toFixed(2)}`, colors.muted, 2.7, 0.42);
+    label.position.set(-3.55, -2.65, slice.worldZ);
+  });
+
+  const axisGeometry = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0, 0, -0.5),
+    new THREE.Vector3(0, 0, 10.6)
+  ]);
+  const axis = new THREE.Line(
+    axisGeometry,
+    new THREE.LineDashedMaterial({ color: new THREE.Color(colors.foreground), dashSize: 0.18, gapSize: 0.12, transparent: true, opacity: 0.72 })
+  );
+  axis.computeLineDistances();
+  world.add(axis);
+
+  const observer = new THREE.Mesh(
+    new THREE.SphereGeometry(0.18, 24, 16),
+    new THREE.MeshBasicMaterial({ color: new THREE.Color(colors.foreground) })
+  );
+  observer.position.set(0, 0, observerZ);
+  world.add(observer);
+
+  const lensGalaxy = new THREE.Mesh(
+    new THREE.SphereGeometry(0.42, 40, 24),
+    new THREE.MeshBasicMaterial({ color: new THREE.Color(colors.lens), transparent: true, opacity: 0.92 })
+  );
+  lensGalaxy.scale.set(1.35, 0.8, 0.45);
+  lensGalaxy.position.set(0, 0, lensPlaneZ);
+  world.add(lensGalaxy);
+
+  const sourceGalaxy = new THREE.Mesh(
+    new THREE.SphereGeometry(0.28, 32, 20),
+    new THREE.MeshBasicMaterial({ color: new THREE.Color(colors.source) })
+  );
+  sourceGalaxy.scale.set(1.2, 0.75, 0.35);
+  sourceGalaxy.position.set(0, 0, sourcePlaneZ);
+  world.add(sourceGalaxy);
+
+  const rayGroup = new THREE.Group();
+  const imageMarkGroup = new THREE.Group();
+  world.add(rayGroup);
+  world.add(imageMarkGroup);
+
+  function clearGroup(group) {
+    while (group.children.length) {
+      const item = group.children.pop();
+      item.geometry?.dispose();
+      item.material?.dispose();
+    }
+  }
+
+  function addRay(lensX, lensY, sourceX) {
+    const curve = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 0, observerZ),
+      new THREE.Vector3(lensX, lensY, lensPlaneZ),
+      new THREE.Vector3(sourceX, 0, sourcePlaneZ)
+    ]);
+    rayGroup.add(new THREE.Line(
+      curve,
+      new THREE.LineBasicMaterial({ color: new THREE.Color(colors.ray), transparent: true, opacity: 0.82 })
+    ));
+  }
+
+  function addImageMark(thetaX, thetaY) {
+    const directionScale = imagePlaneZ / lensPlaneZ;
+    const mark = new THREE.Mesh(
+      new THREE.SphereGeometry(0.075, 20, 14),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color(colors.accent) })
+    );
+    mark.position.set(thetaX * directionScale, thetaY * directionScale, imagePlaneZ + 0.03);
+    imageMarkGroup.add(mark);
+  }
+
+  function updateGeometry(beta) {
+    clearGroup(rayGroup);
+    clearGroup(imageMarkGroup);
+
+    const sourceWorldX = beta * 1.55;
+    sourceGalaxy.position.x = sourceWorldX;
+
+    if (beta &lt; 0.025) {
+      const rayCount = 16;
+      for (let index = 0; index &lt; rayCount; index += 1) {
+        const angle = 2 * Math.PI * index / rayCount;
+        const lensX = 1.55 * Math.cos(angle);
+        const lensY = 1.55 * Math.sin(angle);
+        addRay(lensX, lensY, sourceWorldX);
+        addImageMark(lensX, lensY);
+      }
+      status.innerHTML = &quot;&lt;strong&gt;红移平面族：&lt;/strong&gt;灰色切片表示任意 z=常数 的距离层；橙色透镜平面 zₗ=0.5 和绿色源平面 zₛ=1.0 是其中两张被选中的切片。&lt;br&gt;&lt;strong&gt;β = 0：&lt;/strong&gt;源位于主光轴上，像平面上的像连成爱因斯坦环。&quot;;
+    } else {
+      const thetaPlus = beta + 1;
+      const thetaMinus = beta - 1;
+      addRay(thetaPlus * 1.55, 0, sourceWorldX);
+      addImageMark(thetaPlus * 1.55, 0);
+
+      if (beta &lt; 1) {
+        addRay(thetaMinus * 1.55, 0, sourceWorldX);
+        addImageMark(thetaMinus * 1.55, 0);
+        status.innerHTML = `&lt;strong&gt;红移平面族：&lt;/strong&gt;灰色切片表示任意 z=常数 的距离层；橙色 zₗ=0.5 和绿色 zₛ=1.0 是两张特定切片。&lt;br&gt;&lt;strong&gt;β / θ&lt;sub&gt;E&lt;/sub&gt; = ${beta.toFixed(2)}：&lt;/strong&gt;绿色源平面没有变，但源在其中横向移动并离开主光轴；像平面上出现两个不对称像。`;
+      } else {
+        status.innerHTML = `&lt;strong&gt;红移平面族：&lt;/strong&gt;灰色切片表示任意 z=常数 的距离层；橙色 zₗ=0.5 和绿色 zₛ=1.0 是两张特定切片。&lt;br&gt;&lt;strong&gt;β / θ&lt;sub&gt;E&lt;/sub&gt; = ${beta.toFixed(2)}：&lt;/strong&gt;源仍在绿色源平面，却已横向移到爱因斯坦半径尺度以外；简化模型只保留一个主要像。`;
+      }
+    }
+
+    offsetValue.textContent = beta.toFixed(2);
+  }
+
+  function setCamera(position, target) {
+    camera.position.copy(position);
+    controls.target.copy(target);
+    controls.update();
+  }
+
+  function saveState(view) {
+    window.openai?.setWidgetState?.({
+      modelContent: { sourceOffset: Number(offsetInput.value) },
+      privateContent: { view }
+    }).catch(() =&gt; {});
+  }
+
+  const saved = window.openai?.widgetState || {};
+  const savedOffset = Number(saved.modelContent?.sourceOffset);
+  if (Number.isFinite(savedOffset) &amp;&amp; savedOffset &gt;= 0 &amp;&amp; savedOffset &lt;= 1.25) {
+    offsetInput.value = String(savedOffset);
+  }
+
+  const views = {
+    perspective: () =&gt; setCamera(new THREE.Vector3(9.5, 6.4, -5.8), new THREE.Vector3(0, 0, 5.0)),
+    side: () =&gt; setCamera(new THREE.Vector3(11.5, 0.2, 5.0), new THREE.Vector3(0, 0, 5.0)),
+    observer: () =&gt; setCamera(new THREE.Vector3(0.01, 0.01, -3.8), new THREE.Vector3(0, 0, 5.2))
+  };
+
+  document.getElementById(&quot;lp3d-perspective&quot;).addEventListener(&quot;click&quot;, () =&gt; { views.perspective(); saveState(&quot;perspective&quot;); });
+  document.getElementById(&quot;lp3d-side&quot;).addEventListener(&quot;click&quot;, () =&gt; { views.side(); saveState(&quot;side&quot;); });
+  document.getElementById(&quot;lp3d-observer&quot;).addEventListener(&quot;click&quot;, () =&gt; { views.observer(); saveState(&quot;observer&quot;); });
+
+  offsetInput.addEventListener(&quot;input&quot;, () =&gt; updateGeometry(Number(offsetInput.value)));
+  offsetInput.addEventListener(&quot;change&quot;, () =&gt; saveState(saved.privateContent?.view || &quot;perspective&quot;));
+
+  function resize() {
+    const width = Math.max(stage.clientWidth, 320);
+    const height = Math.max(stage.clientHeight, 420);
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  }
+
+  new ResizeObserver(resize).observe(stage);
+  window.addEventListener(&quot;openai:set_globals&quot;, (event) =&gt; {
+    const next = event.detail?.globals?.widgetState;
+    const nextOffset = Number(next?.modelContent?.sourceOffset);
+    if (Number.isFinite(nextOffset)) {
+      offsetInput.value = String(nextOffset);
+      updateGeometry(nextOffset);
+    }
+  });
+
+  const initialView = saved.privateContent?.view;
+  (views[initialView] || views.perspective)();
+  updateGeometry(Number(offsetInput.value));
+  resize();
+
+  function animate() {
+    controls.update();
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+&lt;/script&gt;
+
+&lt;script type=&quot;module&quot;&gt;
+  import * as THREE from &quot;https://esm.sh/three@0.161.0&quot;;
+  import { OrbitControls } from &quot;https://esm.sh/three@0.161.0/examples/jsm/controls/OrbitControls.js&quot;;
+
+  const root = document.getElementById(&quot;lens-planes-3d&quot;);
+  const stage = document.getElementById(&quot;lp3d-stage&quot;);
+  const xInput = document.getElementById(&quot;lp3d-source-x&quot;);
+  const yInput = document.getElementById(&quot;lp3d-source-y&quot;);
+  const densityInput = document.getElementById(&quot;lp3d-density&quot;);
+  const lensModelInput = document.getElementById(&quot;lp3d-lens-model&quot;);
+  const shearInput = document.getElementById(&quot;lp3d-shear&quot;);
+  const showPlanesInput = document.getElementById(&quot;lp3d-show-planes&quot;);
+  const showRedshiftInput = document.getElementById(&quot;lp3d-show-redshift&quot;);
+  const showRaysInput = document.getElementById(&quot;lp3d-show-rays&quot;);
+  const showAnnotationsInput = document.getElementById(&quot;lp3d-show-annotations&quot;);
+  const xValue = document.getElementById(&quot;lp3d-source-x-value&quot;);
+  const yValue = document.getElementById(&quot;lp3d-source-y-value&quot;);
+  const densityValue = document.getElementById(&quot;lp3d-density-value&quot;);
+  const shearValue = document.getElementById(&quot;lp3d-shear-value&quot;);
+  const shearControl = document.getElementById(&quot;lp3d-shear-control&quot;);
+  const modelExplanation = document.getElementById(&quot;lp3d-model-explanation&quot;);
+  const status = document.getElementById(&quot;lp3d-status&quot;);
+  const visualRow = document.getElementById(&quot;lp3d-visual-row&quot;);
+  const observationPanel = document.getElementById(&quot;lp3d-observation-panel&quot;);
+  const observationTitle = document.getElementById(&quot;lp3d-observation-title&quot;);
+  const observationCanvas = document.getElementById(&quot;lp3d-observation-canvas&quot;);
+  const observationImage = document.getElementById(&quot;lp3d-pyautolens-image&quot;);
+  const observationCaption = document.getElementById(&quot;lp3d-observation-caption&quot;);
+  const exactTitle = document.getElementById(&quot;lp3d-exact-title&quot;);
+  const exactCanvas = document.getElementById(&quot;lp3d-exact-canvas&quot;);
+  const exactColourbar = document.getElementById(&quot;lp3d-exact-colourbar&quot;);
+  const exactCaption = document.getElementById(&quot;lp3d-exact-caption&quot;);
+
+  const COPY = {
+    zh: {
+      documentTitle: &quot;强引力透镜的三维几何&quot;,
+      layerControls: &quot;三维图层开关&quot;,
+      rayCount: &quot;光线数&quot;,
+      rayCountAria: &quot;光线数量&quot;,
+      planes: &quot;物理平面&quot;,
+      redshift: &quot;透镜 / 源平面&quot;,
+      rays: &quot;光线路径&quot;,
+      annotations: &quot;角度与距离&quot;,
+      cameraControls: &quot;镜头视角&quot;,
+      perspective: &quot;宇宙透视&quot;,
+      side: &quot;偏折侧视&quot;,
+      observer: &quot;观察者视角&quot;,
+      dragHint: &quot;拖动源星系改变位置；滚轮缩放；按住鼠标中键拖动画面&quot;,
+      stageAria: &quot;可旋转、可拖动源天体的强引力透镜三维几何&quot;,
+      stageBadge: &quot;薄透镜几何 · 非按比例绘制&quot;,
+      legend: &quot;图例&quot;,
+      legendRay: &quot;实际光束&quot;,
+      legendStraight: &quot;直线 β&quot;,
+      legendExtension: &quot;延长线 θ&quot;,
+      legendLens: &quot;透镜质量&quot;,
+      legendSource: &quot;背景源&quot;,
+      observationPanel: &quot;快速预览与 PyAutoLens 精确观测图&quot;,
+      browserPreview: &quot;浏览器近似预览&quot;,
+      browserCanvas: &quot;白底红色的浏览器近似透镜预览&quot;,
+      exactPendingTitle: &quot;PyAutoLens 精确图 · 等待计算&quot;,
+      exactCanvas: &quot;蓝底科研色表的 PyAutoLens 精确观测图&quot;,
+      exactColourbar: &quot;精确观测图强度色标，蓝色为低值，红色为高值&quot;,
+      exactImage: &quot;PyAutoLens 生成的当前参数模拟观测图&quot;,
+      exactPendingCaption: &quot;等待主工作台完成当前参数的精确射线追踪。&quot;,
+      physicsNote: &quot;空白处左键旋转，滚轮缩放，右键平移；拖动绿色源星系改变的是源平面内的 βx、βy，不是质量中心。左侧的 zₗ、zₛ 会把透镜平面和源平面沿观察者—源方向前后移动；当前质量与透镜星光共用透镜星系中心。&quot;,
+      observerLabel: &quot;观察者 O&quot;,
+      imagePlaneLabel: &quot;像平面 · θ&quot;,
+      lensPlaneLabel: &quot;透镜平面 · zₗ={z}&quot;,
+      sourcePlaneLabel: &quot;源平面 · zₛ={z}&quot;,
+      lensPotentialAxisymmetric: &quot;轴对称透镜势：θE={thetaE}，γ=0&quot;,
+      lensPotentialDetailed: &quot;质量模型：{model} · q={q} · PA={angle}° · θE={thetaE} · γ={gamma} @ {shearAngle}°&quot;,
+      modelAxisymmetric: &quot;&lt;strong&gt;轴对称基准：&lt;/strong&gt;浏览器近似图采用 SIS 薄透镜映射。没有外部潮汐剪切（γ = 0）且 q = 1 时，总透镜势为圆对称；完全共轴时形成完整爱因斯坦环。&quot;,
+      modelElliptical: &quot;&lt;strong&gt;椭圆质量模型：&lt;/strong&gt;当前轴比 q = {q}、位置角 PA = {angle}°。三维光线与红色近似图均响应这些参数；下方蓝色精确图由 PyAutoLens 用完整质量模型计算。&quot;,
+      modelShearZero: &quot;&lt;strong&gt;剪切对照起点：&lt;/strong&gt;当前 γ ≈ 0，潮汐项尚未破坏旋转对称性。主工作台传入的 γ₁、γ₂ 与方向仍被保留，精确图由 PyAutoLens 计算。&quot;,
+      modelShear: &quot;&lt;strong&gt;外部剪切：&lt;/strong&gt;γ = {gamma}、方向 {angle}°。紫色等势线和箭头显示周围星系或星系群的潮汐场；浏览器预览与三维光线使用同一组 γ₁、γ₂。&quot;,
+      ringTitle: &quot;爱因斯坦环&quot;,
+      ringCaption: &quot;源、透镜与观察者近乎完全共轴，有限源的像连接成闭合圆环。&quot;,
+      crossTitle: &quot;爱因斯坦十字&quot;,
+      crossCaption: &quot;源位于四像焦散区内，中心透镜周围出现四个分离像。&quot;,
+      shearRingTitle: &quot;γ = 0 的轴对称爱因斯坦环&quot;,
+      shearRingCaption: &quot;外部剪切归零后总透镜势恢复圆对称，四像重新连接为完整圆环。&quot;,
+      arcTitle: &quot;近轴双弧&quot;,
+      arcCaption: &quot;源轻微离开主光轴，圆环断开并演化成两段不对称弧。&quot;,
+      liveShearTitle: &quot;SIS + 外部剪切&quot;,
+      liveShearCaption: &quot;当前位置由浏览器近似射线追踪；改变源位置、质量椭率或剪切分量，可连续观察像的数量、方向和形状。&quot;,
+      liveSisTitle: &quot;SIS 轴对称透镜&quot;,
+      liveSisCaption: &quot;当前位置由浏览器近似射线追踪；拖动源星系，可连续观察圆环、弧与双像之间的变化。&quot;,
+      browserTitlePrefix: &quot;浏览器近似预览 · &quot;,
+      lensLightNote: &quot; 中央暖色椭圆光斑是前景透镜星系自身的星光；外侧品红光弧才是背景源星系的被透镜像。&quot;,
+      lensLightDisabledNote: &quot; 前景透镜星光已关闭；当前品红结构全部来自背景源星系的被透镜像。&quot;,
+      continuousNote: &quot; 当前画面由有限源实时射线追踪连续生成，不使用预制关键帧。&quot;,
+      fallbackNote: &quot; PyAutoLens 资源未加载，已回退到实时射线追踪图。&quot;,
+      betaAngle: &quot;β · 源位置角&quot;,
+      thetaAngle: &quot;θ · 像位置角&quot;,
+      deflectionAngle: &quot;α̂ · 偏折角&quot;,
+      statusShear: &quot;&lt;strong&gt;SIE + 剪切&lt;/strong&gt; · q={q} · PA={massAngle}° · γ={gamma} · θE={thetaE}″ · β=({betaX}, {betaY})″&quot;,
+      formationAxisymmetric: &quot;γ≈0 时总透镜势仍近似轴对称，共轴像接近完整圆环。&quot;,
+      formationElliptical: &quot;椭圆质量分布打破旋转对称性，并沿质量主轴重新分配像的亮度与位置。&quot;,
+      formationSheared: &quot;潮汐场打破旋转对称性，圆环的光被重新集中到优势方向。&quot;,
+      solutionsRing: &quot;数值求解器的方位采样点共同描出一个连续爱因斯坦环，并非许多独立像。&quot;,
+      solutionsCount: &quot;当前求得 {count} 个中心像；源穿越焦散时，像数会随位置连续变化。&quot;,
+      statusSis: &quot;&lt;strong&gt;SIS&lt;/strong&gt; · θE={thetaE}″ · β=({betaX}, {betaY})″ · |β|/θE={betaNorm}&quot;,
+      sisRingDescription: &quot;源与透镜完全共轴，像平面上形成完整的爱因斯坦环。&quot;,
+      sisArcDescription: &quot;源轻微离轴，爱因斯坦环连续演化成两段不对称弧。&quot;,
+      sisDoubleDescription: &quot;源位于 θE 内，像平面上形成两个形状和亮度不同的拉伸像。&quot;,
+      sisSingleDescription: &quot;源位于 θE 外，理想 SIS 只保留一个主要像。&quot;,
+      sisTwoSolutions: &quot;θ₊ = {plus}″，θ₋ = {minus}″&quot;,
+      sisOneSolution: &quot;θ₊ = {plus}″（无内侧像）&quot;
+    },
+    en: {
+      documentTitle: &quot;3D Geometry of Strong Gravitational Lensing&quot;,
+      layerControls: &quot;3D layer controls&quot;,
+      rayCount: &quot;Rays&quot;,
+      rayCountAria: &quot;Ray count&quot;,
+      planes: &quot;Physical planes&quot;,
+      redshift: &quot;Lens / source planes&quot;,
+      rays: &quot;Ray paths&quot;,
+      annotations: &quot;Angles and distances&quot;,
+      cameraControls: &quot;Camera views&quot;,
+      perspective: &quot;Cosmic view&quot;,
+      side: &quot;Deflection side view&quot;,
+      observer: &quot;Observer view&quot;,
+      dragHint: &quot;Drag the source to move it; scroll to zoom; middle-drag to pan&quot;,
+      stageAria: &quot;Rotatable 3D strong-lensing geometry with a draggable source&quot;,
+      stageBadge: &quot;THIN-LENS GEOMETRY · NOT TO SCALE&quot;,
+      legend: &quot;Legend&quot;,
+      legendRay: &quot;Deflected rays&quot;,
+      legendStraight: &quot;Unlensed line β&quot;,
+      legendExtension: &quot;Back extension θ&quot;,
+      legendLens: &quot;Lens mass&quot;,
+      legendSource: &quot;Background source&quot;,
+      observationPanel: &quot;Fast preview and exact PyAutoLens observation&quot;,
+      browserPreview: &quot;Approximate browser preview&quot;,
+      browserCanvas: &quot;White-background approximate browser lensing preview&quot;,
+      exactPendingTitle: &quot;Exact PyAutoLens image · waiting&quot;,
+      exactCanvas: &quot;Exact PyAutoLens image with a scientific colour map&quot;,
+      exactColourbar: &quot;Intensity colourbar for the exact observation; blue is low and red is high&quot;,
+      exactImage: &quot;PyAutoLens simulation for the current parameters&quot;,
+      exactPendingCaption: &quot;Waiting for the workbench to finish exact ray tracing for the current parameters.&quot;,
+      physicsNote: &quot;Left-drag empty space to orbit, scroll to zoom, and right-drag to pan. Dragging the green source changes βx and βy within the source plane, not the mass centre. The sidebar zₗ and zₛ controls move the lens and source planes along the observer–source direction; the current mass and lens light share the lens-galaxy centre.&quot;,
+      observerLabel: &quot;Observer O&quot;,
+      imagePlaneLabel: &quot;Image plane · θ&quot;,
+      lensPlaneLabel: &quot;Lens plane · zₗ={z}&quot;,
+      sourcePlaneLabel: &quot;Source plane · zₛ={z}&quot;,
+      lensPotentialAxisymmetric: &quot;Axisymmetric potential: θE={thetaE}, γ=0&quot;,
+      lensPotentialDetailed: &quot;Mass model: {model} · q={q} · PA={angle}° · θE={thetaE} · γ={gamma} @ {shearAngle}°&quot;,
+      modelAxisymmetric: &quot;&lt;strong&gt;Axisymmetric reference:&lt;/strong&gt; The approximate browser image uses the SIS thin-lens mapping. With no external shear (γ = 0) and q = 1, the total potential is circular; perfect alignment forms a complete Einstein ring.&quot;,
+      modelElliptical: &quot;&lt;strong&gt;Elliptical mass model:&lt;/strong&gt; The current axis ratio is q = {q} at PA = {angle}°. Both the 3D rays and red approximate image respond to these parameters; the blue exact image is computed by PyAutoLens with the full mass model.&quot;,
+      modelShearZero: &quot;&lt;strong&gt;Shear reference:&lt;/strong&gt; γ ≈ 0, so the tidal term has not yet broken rotational symmetry. The incoming γ₁, γ₂ and direction are retained, and the exact image is computed by PyAutoLens.&quot;,
+      modelShear: &quot;&lt;strong&gt;External shear:&lt;/strong&gt; γ = {gamma} at {angle}°. Purple contours and arrows show the tidal field from nearby structure; the browser preview and 3D rays use the same γ₁, γ₂ components.&quot;,
+      ringTitle: &quot;Einstein ring&quot;,
+      ringCaption: &quot;The source, lens and observer are nearly coaxial, so the finite-source images join into a closed ring.&quot;,
+      crossTitle: &quot;Einstein cross&quot;,
+      crossCaption: &quot;The source lies inside the four-image caustic and produces four separated images around the lens.&quot;,
+      shearRingTitle: &quot;Axisymmetric Einstein ring at γ = 0&quot;,
+      shearRingCaption: &quot;With external shear removed, the total potential is circular and the four-image pattern reconnects into a full ring.&quot;,
+      arcTitle: &quot;Near-axis double arcs&quot;,
+      arcCaption: &quot;A small source offset breaks the ring into two asymmetric arcs.&quot;,
+      liveShearTitle: &quot;SIS + external shear&quot;,
+      liveShearCaption: &quot;The browser traces this position approximately; move the source or change mass ellipticity or shear to follow image count, direction and shape continuously.&quot;,
+      liveSisTitle: &quot;Axisymmetric SIS lens&quot;,
+      liveSisCaption: &quot;The browser traces the lens approximately; drag the source to follow the continuous transition between rings, arcs and double images.&quot;,
+      browserTitlePrefix: &quot;Approximate browser preview · &quot;,
+      lensLightNote: &quot; The warm central ellipse is light from the foreground lens galaxy; the outer magenta arcs are lensed images of the background source.&quot;,
+      lensLightDisabledNote: &quot; Foreground lens light is disabled; all magenta structure comes from lensed background-source light.&quot;,
+      continuousNote: &quot; This finite-source image is generated continuously by live ray tracing, not a stored keyframe.&quot;,
+      fallbackNote: &quot; The PyAutoLens asset did not load, so the live ray-traced preview is shown instead.&quot;,
+      betaAngle: &quot;β · source angle&quot;,
+      thetaAngle: &quot;θ · image angle&quot;,
+      deflectionAngle: &quot;α̂ · deflection&quot;,
+      statusShear: &quot;&lt;strong&gt;SIE + shear&lt;/strong&gt; · q={q} · PA={massAngle}° · γ={gamma} · θE={thetaE}″ · β=({betaX}, {betaY})″&quot;,
+      formationAxisymmetric: &quot;At γ≈0 the total potential remains nearly axisymmetric, so a coaxial source approaches a complete ring.&quot;,
+      formationElliptical: &quot;The elliptical mass distribution breaks rotational symmetry and redistributes image positions and brightness along its principal axes.&quot;,
+      formationSheared: &quot;The tidal field breaks rotational symmetry and concentrates ring light along preferred directions.&quot;,
+      solutionsRing: &quot;Angular samples from the numerical solver trace one continuous Einstein ring; they are not separate images.&quot;,
+      solutionsCount: &quot;The central solver currently finds {count} images; the count changes continuously as the source crosses caustics.&quot;,
+      statusSis: &quot;&lt;strong&gt;SIS&lt;/strong&gt; · θE={thetaE}″ · β=({betaX}, {betaY})″ · |β|/θE={betaNorm}&quot;,
+      sisRingDescription: &quot;The source and lens are coaxial, producing a complete Einstein ring in the image plane.&quot;,
+      sisArcDescription: &quot;A small source offset continuously turns the Einstein ring into two asymmetric arcs.&quot;,
+      sisDoubleDescription: &quot;The source lies within θE, producing two stretched images of different shape and brightness.&quot;,
+      sisSingleDescription: &quot;The source lies outside θE, so the ideal SIS leaves one primary image.&quot;,
+      sisTwoSolutions: &quot;θ₊ = {plus}″, θ₋ = {minus}″&quot;,
+      sisOneSolution: &quot;θ₊ = {plus}″ (no inner image)&quot;
+    }
+  };
+
+  let currentLanguage = &quot;en&quot;;
+
+  function normalizeLanguage(value) {
+    return String(value || &quot;&quot;).toLowerCase().startsWith(&quot;en&quot;) ? &quot;en&quot; : &quot;zh&quot;;
+  }
+
+  function t(key, values = {}) {
+    let text = COPY[currentLanguage]?.[key] ?? COPY.zh[key] ?? key;
+    Object.entries(values).forEach(([name, value]) =&gt; {
+      text = text.replaceAll(`{${name}}`, String(value));
+    });
+    return text;
+  }
+
+  const palette = {
+    axis: 0x667085,
+    plane: 0x98a2b3,
+    image: 0xc13b80,
+    lens: 0xd66a1f,
+    source: 0x168a52,
+    ray: 0x2478c9,
+    rayHot: 0x1f2937,
+    straight: 0x168f88,
+    extension: 0x7654c4,
+    shear: 0x7b3fa1,
+    slice: 0x3568d4,
+    white: 0x344054
+  };
+
+  const OBSERVER_Z = 0;
+  const IMAGE_Z = 1.35;
+  // World-z is a visual distance proxy. The defaults preserve the original
+  // teaching layout (zₗ=0.5 -> 5, zₛ=1.0 -> 10); sidebar redshift controls
+  // now move both physical planes together.
+  let LENS_Z = 5;
+  let SOURCE_Z = 10;
+  const BETA_SCALE = 1.48;
+  const PLANE_SIZE = 6.3;
+  const lensParameters = {
+    massModel: &quot;isothermal_sph&quot;,
+    lensRedshift: 0.50,
+    sourceRedshift: 1.00,
+    lensX: 0,
+    lensY: 0,
+    massAxisRatio: 1,
+    massAngle: 0,
+    shearGamma1: 0,
+    shearGamma2: 0,
+    einsteinRadius: 1,
+    sourceModel: &quot;sersic&quot;,
+    sourceIntensity: 1,
+    sourceEffectiveRadius: 0.10,
+    sourceSersicIndex: 1,
+    sourceAxisRatio: 0.82,
+    sourceAngle: 25,
+    lensLightEnabled: true,
+    lensLightIntensity: 0.28,
+    lensLightEffectiveRadius: 0.58,
+    lensLightSersicIndex: 2.4,
+    lensLightAxisRatio: 0.76,
+    lensLightAngle: 8
+  };
+
+  function finiteNumber(value, fallback) {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : fallback;
+  }
+
+  function currentEinsteinRadius() {
+    return THREE.MathUtils.clamp(finiteNumber(lensParameters.einsteinRadius, 1), 0.05, 3);
+  }
+
+  function currentAxisRatio() {
+    return THREE.MathUtils.clamp(finiteNumber(lensParameters.massAxisRatio, 1), 0.2, 1);
+  }
+
+  function currentDeflectionAxisRatio() {
+    return lensParameters.massModel === &quot;isothermal_sph&quot; ? 1 : currentAxisRatio();
+  }
+
+  function currentSourceEffectiveRadius() {
+    return THREE.MathUtils.clamp(finiteNumber(lensParameters.sourceEffectiveRadius, 0.10), 0.005, 0.5);
+  }
+
+  function currentSourceAxisRatio() {
+    return THREE.MathUtils.clamp(finiteNumber(lensParameters.sourceAxisRatio, 0.82), 0.2, 1);
+  }
+
+  function currentLensLightAxisRatio() {
+    return THREE.MathUtils.clamp(finiteNumber(lensParameters.lensLightAxisRatio, 0.76), 0.2, 1);
+  }
+
+  function sourceIsPoint() {
+    return lensParameters.sourceModel === &quot;point&quot;;
+  }
+
+  function currentShearComponents() {
+    return {
+      gamma1: finiteNumber(lensParameters.shearGamma1, 0),
+      gamma2: finiteNumber(lensParameters.shearGamma2, 0)
+    };
+  }
+
+  function currentShear() {
+    const { gamma1, gamma2 } = currentShearComponents();
+    return Math.hypot(gamma1, gamma2);
+  }
+
+  function currentShearAngle() {
+    const { gamma1, gamma2 } = currentShearComponents();
+    return 0.5 * Math.atan2(gamma2, gamma1) * 180 / Math.PI;
+  }
+
+  function hasShearModel() {
+    return currentShear() &gt; 0.0001 || /shear/i.test(lensParameters.massModel);
+  }
+
+  function applyIncomingModel(model, globals = {}) {
+    if (!model || typeof model !== &quot;object&quot;) return false;
+    const incomingLensRedshift = Number(model.lensRedshift);
+    const incomingSourceRedshift = Number(model.sourceRedshift);
+    if (Number.isFinite(incomingLensRedshift)) {
+      lensParameters.lensRedshift = THREE.MathUtils.clamp(incomingLensRedshift, 0.05, 5.9);
+    }
+    if (Number.isFinite(incomingSourceRedshift)) {
+      lensParameters.sourceRedshift = THREE.MathUtils.clamp(
+        incomingSourceRedshift,
+        Math.max(0.1, lensParameters.lensRedshift + 0.05),
+        6
+      );
+    }
+    if (Number.isFinite(Number(model.lensX))) lensParameters.lensX = THREE.MathUtils.clamp(Number(model.lensX), -1.5, 1.5);
+    if (Number.isFinite(Number(model.lensY))) lensParameters.lensY = THREE.MathUtils.clamp(Number(model.lensY), -1.5, 1.5);
+    if (typeof model.massModel === &quot;string&quot; &amp;&amp; model.massModel.trim()) {
+      lensParameters.massModel = model.massModel.trim();
+    } else if (model.lensModel === &quot;cross&quot;) {
+      lensParameters.massModel = &quot;isothermal_shear&quot;;
+    } else if (model.lensModel === &quot;point&quot;) {
+      lensParameters.massModel = &quot;isothermal_sph&quot;;
+    }
+    lensParameters.massAxisRatio = THREE.MathUtils.clamp(
+      finiteNumber(model.massAxisRatio, lensParameters.massAxisRatio),
+      0.2,
+      1
+    );
+    lensParameters.massAngle = finiteNumber(model.massAngle, lensParameters.massAngle);
+    lensParameters.einsteinRadius = THREE.MathUtils.clamp(
+      finiteNumber(model.einsteinRadius, lensParameters.einsteinRadius),
+      0.05,
+      3
+    );
+
+    if (model.sourceModel === &quot;point&quot; || model.sourceModel === &quot;sersic&quot;) {
+      lensParameters.sourceModel = model.sourceModel;
+    }
+    lensParameters.sourceIntensity = THREE.MathUtils.clamp(
+      finiteNumber(model.sourceIntensity, lensParameters.sourceIntensity),
+      0,
+      10
+    );
+    lensParameters.sourceEffectiveRadius = THREE.MathUtils.clamp(
+      finiteNumber(model.sourceEffectiveRadius, lensParameters.sourceEffectiveRadius),
+      0.005,
+      0.5
+    );
+    lensParameters.sourceSersicIndex = THREE.MathUtils.clamp(
+      finiteNumber(model.sourceSersicIndex, lensParameters.sourceSersicIndex),
+      0.3,
+      8
+    );
+    lensParameters.sourceAxisRatio = THREE.MathUtils.clamp(
+      finiteNumber(model.sourceAxisRatio, lensParameters.sourceAxisRatio),
+      0.2,
+      1
+    );
+    lensParameters.sourceAngle = finiteNumber(model.sourceAngle, lensParameters.sourceAngle);
+
+    if (typeof model.lensLightEnabled === &quot;boolean&quot;) {
+      lensParameters.lensLightEnabled = model.lensLightEnabled;
+    }
+    lensParameters.lensLightIntensity = THREE.MathUtils.clamp(
+      finiteNumber(model.lensLightIntensity, lensParameters.lensLightIntensity),
+      0,
+      10
+    );
+    lensParameters.lensLightEffectiveRadius = THREE.MathUtils.clamp(
+      finiteNumber(model.lensLightEffectiveRadius, lensParameters.lensLightEffectiveRadius),
+      0.005,
+      3
+    );
+    lensParameters.lensLightSersicIndex = THREE.MathUtils.clamp(
+      finiteNumber(model.lensLightSersicIndex, lensParameters.lensLightSersicIndex),
+      0.3,
+      8
+    );
+    lensParameters.lensLightAxisRatio = THREE.MathUtils.clamp(
+      finiteNumber(model.lensLightAxisRatio, lensParameters.lensLightAxisRatio),
+      0.2,
+      1
+    );
+    lensParameters.lensLightAngle = finiteNumber(model.lensLightAngle, lensParameters.lensLightAngle);
+
+    const hasGammaComponents = Number.isFinite(Number(model.shearGamma1)) || Number.isFinite(Number(model.shearGamma2));
+    if (hasGammaComponents) {
+      lensParameters.shearGamma1 = finiteNumber(model.shearGamma1, lensParameters.shearGamma1);
+      lensParameters.shearGamma2 = finiteNumber(model.shearGamma2, lensParameters.shearGamma2);
+    } else if (Number.isFinite(Number(model.externalShear))) {
+      const magnitude = Math.max(0, Number(model.externalShear));
+      const angle = Number.isFinite(Number(model.shearAngle)) ? Number(model.shearAngle) * Math.PI / 180 : 0;
+      lensParameters.shearGamma1 = magnitude * Math.cos(2 * angle);
+      lensParameters.shearGamma2 = magnitude * Math.sin(2 * angle);
+    }
+
+    const language = model.language ?? globals.language;
+    const nextLanguage = normalizeLanguage(language || currentLanguage);
+    const languageChanged = nextLanguage !== currentLanguage;
+    currentLanguage = nextLanguage;
+    lensModelInput.value = hasShearModel() ? &quot;cross&quot; : &quot;point&quot;;
+    shearInput.value = String(currentShear());
+    if (typeof updatePhysicalPlanePositions === &quot;function&quot;) updatePhysicalPlanePositions();
+    return languageChanged;
+  }
+
+  // The observer camera looks from -z toward +z, which reverses Three.js world-x
+  // on screen. Store angular +x as world -x so the displayed image follows the
+  // PyAutoLens convention: positive beta_x and theta_x appear on screen-right.
+  function displayX(angleX, scale = BETA_SCALE) {
+    return -angleX * scale;
+  }
+
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 120);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  stage.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.065;
+  controls.target.set(-0.62, 0, 5);
+  controls.minDistance = 6;
+  controls.maxDistance = 30;
+  controls.screenSpacePanning = true;
+  controls.mouseButtons.LEFT = THREE.MOUSE.ROTATE;
+  controls.mouseButtons.MIDDLE = THREE.MOUSE.PAN;
+  controls.mouseButtons.RIGHT = THREE.MOUSE.PAN;
+
+  const world = new THREE.Group();
+  scene.add(world);
+  const rayGroup = new THREE.Group();
+  const imageGroup = new THREE.Group();
+  const annotationGroup = new THREE.Group();
+  const photonGroup = new THREE.Group();
+  const lensFieldGroup = new THREE.Group();
+  const planeGroup = new THREE.Group();
+  world.add(rayGroup, imageGroup, annotationGroup, photonGroup, lensFieldGroup, planeGroup);
+
+  // The teaching space intentionally keeps a plain white background.
+
+  function planeAt(z, color, opacity) {
+    const mesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE),
+      new THREE.MeshBasicMaterial({
+        color,
+        transparent: true,
+        opacity,
+        side: THREE.DoubleSide,
+        depthWrite: false
+      })
+    );
+    mesh.position.z = z;
+    planeGroup.add(mesh);
+    const grid = new THREE.GridHelper(PLANE_SIZE, 12, color, color);
+    grid.rotation.x = Math.PI / 2;
+    grid.position.z = z + 0.005;
+    grid.material.transparent = true;
+    grid.material.opacity = opacity * 1.9;
+    grid.material.depthWrite = false;
+    mesh.userData.grid = grid;
+    planeGroup.add(grid);
+    return mesh;
+  }
+
+  const imagePlane = planeAt(IMAGE_Z, palette.image, 0.045);
+  const lensPlane = planeAt(LENS_Z, palette.lens, 0.055);
+  const sourcePlane = planeAt(SOURCE_Z, palette.source, 0.05);
+  sourcePlane.userData.sourcePlane = true;
+
+  function redshiftToWorldZ(redshift) {
+    const z = THREE.MathUtils.clamp(finiteNumber(redshift, 1), 0.05, 6);
+    // Keep the familiar default layout while retaining a monotonic distance
+    // cue across the supported redshift range. Values above z=1 are spread
+    // more gently so the source plane remains inside the teaching viewport.
+    return z <= 1 ? Math.max(IMAGE_Z + 0.65, 10 * z) : 10 + 1.2 * (z - 1);
+  }
+
+  function updatePhysicalPlanePositions() {
+    const requestedLensZ = redshiftToWorldZ(lensParameters.lensRedshift);
+    const requestedSourceZ = redshiftToWorldZ(lensParameters.sourceRedshift);
+    LENS_Z = Math.max(IMAGE_Z + 0.65, requestedLensZ);
+    SOURCE_Z = Math.max(LENS_Z + 0.9, requestedSourceZ);
+    lensPlane.position.z = LENS_Z;
+    lensPlane.userData.grid.position.z = LENS_Z + 0.005;
+    sourcePlane.position.z = SOURCE_Z;
+    sourcePlane.userData.grid.position.z = SOURCE_Z + 0.005;
+    lensGalaxy.position.z = LENS_Z;
+    sourceGalaxy.position.z = SOURCE_Z + 0.05;
+    if (typeof dragPlane !== &quot;undefined&quot;) dragPlane.constant = -SOURCE_Z;
+    if (typeof axis !== &quot;undefined&quot;) axis.scale.z = Math.max(1, SOURCE_Z / 11.2);
+    root.dataset.lensRedshift = String(finiteNumber(lensParameters.lensRedshift, 0.5));
+    root.dataset.sourceRedshift = String(finiteNumber(lensParameters.sourceRedshift, 1.0));
+    root.dataset.lensPlaneZ = String(LENS_Z);
+    root.dataset.sourcePlaneZ = String(SOURCE_Z);
+    if (typeof refreshFixedLabels === &quot;function&quot;) refreshFixedLabels();
+  }
+
+  function makeLabel(text, color = &quot;#f5f8ff&quot;, width = 3.7, height = 0.5) {
+    const canvas = document.createElement(&quot;canvas&quot;);
+    canvas.width = 1024;
+    canvas.height = 144;
+    const context = canvas.getContext(&quot;2d&quot;);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.font = &quot;500 45px 'Segoe UI', 'Microsoft YaHei', sans-serif&quot;;
+    context.fillStyle = color;
+    context.textAlign = &quot;center&quot;;
+    context.textBaseline = &quot;middle&quot;;
+    context.shadowColor = &quot;rgba(255,255,255,0.96)&quot;;
+    context.shadowBlur = 5;
+    context.fillText(text, canvas.width / 2, canvas.height / 2);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    const sprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false, depthWrite: false })
+    );
+    sprite.scale.set(width, height, 1);
+    sprite.renderOrder = 50;
+    return sprite;
+  }
+
+  function addFixedLabel(text, position, color, width) {
+    const label = makeLabel(text, color, width);
+    label.position.copy(position);
+    fixedLabelGroup.add(label);
+    return label;
+  }
+
+  const fixedLabelGroup = new THREE.Group();
+  world.add(fixedLabelGroup);
+
+  function refreshFixedLabels() {
+    clearGroup(fixedLabelGroup);
+    addFixedLabel(t(&quot;observerLabel&quot;), new THREE.Vector3(0, 1.05, -0.15), &quot;#344054&quot;, 2.0);
+    addFixedLabel(t(&quot;imagePlaneLabel&quot;), new THREE.Vector3(0, 3.35, IMAGE_Z), &quot;#a52f6c&quot;, 2.8);
+    addFixedLabel(t(&quot;lensPlaneLabel&quot;, { z: finiteNumber(lensParameters.lensRedshift, 0.5).toFixed(2) }), new THREE.Vector3(0, 3.35, LENS_Z), &quot;#b85216&quot;, 3.2);
+    addFixedLabel(t(&quot;sourcePlaneLabel&quot;, { z: finiteNumber(lensParameters.sourceRedshift, 1.0).toFixed(2) }), new THREE.Vector3(0, 3.35, SOURCE_Z), &quot;#117642&quot;, 3.0);
+  }
+
+  function setLegendCopy(id, key) {
+    const element = document.getElementById(id);
+    const swatch = element?.querySelector(&quot;i&quot;);
+    if (!element || !swatch) return;
+    element.replaceChildren(swatch, document.createTextNode(t(key)));
+  }
+
+  function applyLanguage(redraw = true) {
+    document.documentElement.lang = currentLanguage === &quot;en&quot; ? &quot;en&quot; : &quot;zh-CN&quot;;
+    document.title = t(&quot;documentTitle&quot;);
+    document.getElementById(&quot;lp3d-layer-toggles&quot;).setAttribute(&quot;aria-label&quot;, t(&quot;layerControls&quot;));
+    document.getElementById(&quot;lp3d-density-label&quot;).textContent = t(&quot;rayCount&quot;);
+    densityInput.setAttribute(&quot;aria-label&quot;, t(&quot;rayCountAria&quot;));
+    document.getElementById(&quot;lp3d-show-planes-label&quot;).textContent = t(&quot;planes&quot;);
+    document.getElementById(&quot;lp3d-show-redshift-label&quot;).textContent = t(&quot;redshift&quot;);
+    document.getElementById(&quot;lp3d-show-rays-label&quot;).textContent = t(&quot;rays&quot;);
+    document.getElementById(&quot;lp3d-show-annotations-label&quot;).textContent = t(&quot;annotations&quot;);
+    document.querySelector(&quot;.lp3d-view-controls&quot;).setAttribute(&quot;aria-label&quot;, t(&quot;cameraControls&quot;));
+    document.getElementById(&quot;lp3d-perspective&quot;).textContent = t(&quot;perspective&quot;);
+    document.getElementById(&quot;lp3d-side&quot;).textContent = t(&quot;side&quot;);
+    document.getElementById(&quot;lp3d-observer&quot;).textContent = t(&quot;observer&quot;);
+    document.getElementById(&quot;lp3d-drag-hint&quot;).textContent = t(&quot;dragHint&quot;);
+    stage.setAttribute(&quot;aria-label&quot;, t(&quot;stageAria&quot;));
+    document.getElementById(&quot;lp3d-stage-badge&quot;).textContent = t(&quot;stageBadge&quot;);
+    document.querySelector(&quot;.lp3d-legend-row&quot;).setAttribute(&quot;aria-label&quot;, t(&quot;legend&quot;));
+    setLegendCopy(&quot;lp3d-legend-ray&quot;, &quot;legendRay&quot;);
+    setLegendCopy(&quot;lp3d-legend-straight&quot;, &quot;legendStraight&quot;);
+    setLegendCopy(&quot;lp3d-legend-extension&quot;, &quot;legendExtension&quot;);
+    setLegendCopy(&quot;lp3d-legend-lens&quot;, &quot;legendLens&quot;);
+    setLegendCopy(&quot;lp3d-legend-source&quot;, &quot;legendSource&quot;);
+    observationPanel.setAttribute(&quot;aria-label&quot;, t(&quot;observationPanel&quot;));
+    observationCanvas.setAttribute(&quot;aria-label&quot;, t(&quot;browserCanvas&quot;));
+    exactCanvas.setAttribute(&quot;aria-label&quot;, t(&quot;exactCanvas&quot;));
+    exactColourbar.setAttribute(&quot;aria-label&quot;, t(&quot;exactColourbar&quot;));
+    observationImage.setAttribute(&quot;alt&quot;, t(&quot;exactImage&quot;));
+    if (exactCanvas.classList.contains(&quot;is-pending&quot;)) {
+      exactTitle.textContent = t(&quot;exactPendingTitle&quot;);
+      exactCaption.textContent = t(&quot;exactPendingCaption&quot;);
+    }
+    document.getElementById(&quot;lp3d-physics-note&quot;).textContent = t(&quot;physicsNote&quot;);
+    refreshFixedLabels();
+    lensVisualKey = &quot;&quot;;
+    if (redraw) updateGeometry();
+  }
+
+  function applyLayerVisibility() {
+    planeGroup.visible = showPlanesInput.checked;
+    [lensPlane, sourcePlane].forEach((plane) =&gt; {
+      plane.visible = showRedshiftInput.checked;
+      if (plane.userData.grid) plane.userData.grid.visible = showRedshiftInput.checked;
+    });
+    rayGroup.visible = showRaysInput.checked;
+    photonGroup.visible = showRaysInput.checked;
+    annotationGroup.visible = showAnnotationsInput.checked;
+  }
+
+  const axis = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 0, -0.7),
+      new THREE.Vector3(0, 0, 11.2)
+    ]),
+    new THREE.LineDashedMaterial({
+      color: palette.axis,
+      dashSize: 0.18,
+      gapSize: 0.13,
+      transparent: true,
+      opacity: 0.58
+    })
+  );
+  axis.computeLineDistances();
+  world.add(axis);
+
+  const observer = new THREE.Group();
+  observer.position.set(0, 0, OBSERVER_Z);
+  observer.add(new THREE.Mesh(
+    new THREE.SphereGeometry(0.2, 32, 20),
+    new THREE.MeshBasicMaterial({ color: palette.white })
+  ));
+  world.add(observer);
+
+  function galaxyTexture(core, arms, seed) {
+    const canvas = document.createElement(&quot;canvas&quot;);
+    canvas.width = 512;
+    canvas.height = 512;
+    const context = canvas.getContext(&quot;2d&quot;);
+    const gradient = context.createRadialGradient(256, 256, 4, 256, 256, 240);
+    gradient.addColorStop(0, core);
+    gradient.addColorStop(0.12, arms);
+    gradient.addColorStop(0.55, &quot;rgba(80,110,180,0.15)&quot;);
+    gradient.addColorStop(1, &quot;rgba(0,0,0,0)&quot;);
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 512, 512);
+    const random = seededRandom(seed);
+    for (let index = 0; index &lt; 520; index += 1) {
+      const arm = index % 3;
+      const radius = Math.pow(random(), 0.7) * 205;
+      const angle = arm * Math.PI * 2 / 3 + radius * 0.032 + (random() - 0.5) * 0.55;
+      const x = 256 + Math.cos(angle) * radius;
+      const y = 256 + Math.sin(angle) * radius * 0.58;
+      const size = 0.5 + random() * 2.2;
+      context.fillStyle = index % 7 === 0 ? core : arms;
+      context.globalAlpha = 0.16 + random() * 0.62;
+      context.beginPath();
+      context.arc(x, y, size, 0, Math.PI * 2);
+      context.fill();
+    }
+    context.globalAlpha = 1;
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }
+
+  const lensGalaxy = new THREE.Group();
+  lensGalaxy.position.z = LENS_Z;
+  const lensBody = new THREE.Mesh(
+    new THREE.SphereGeometry(0.62, 48, 30),
+    new THREE.MeshBasicMaterial({ color: 0x8b9099, transparent: true, opacity: 0.86 })
+  );
+  lensBody.scale.set(0.94, 0.94, 0.3);
+  lensGalaxy.add(lensBody);
+  world.add(lensGalaxy);
+
+  function ellipseLoop(radiusX, radiusY, z, color, opacity, rotation = 0) {
+    const points = [];
+    for (let index = 0; index &lt; 160; index += 1) {
+      const angle = 2 * Math.PI * index / 160;
+      points.push(new THREE.Vector3(radiusX * Math.cos(angle), radiusY * Math.sin(angle), z));
+    }
+    const loop = new THREE.LineLoop(
+      new THREE.BufferGeometry().setFromPoints(points),
+      new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false })
+    );
+    loop.rotation.z = rotation;
+    return loop;
+  }
+
+  function addShearArrow(direction, origin, length) {
+    const arrow = new THREE.ArrowHelper(direction, origin, length, palette.shear, 0.17, 0.09);
+    arrow.line.material.transparent = true;
+    arrow.line.material.opacity = 0.86;
+    arrow.cone.material.transparent = true;
+    arrow.cone.material.opacity = 0.86;
+    lensFieldGroup.add(arrow);
+  }
+
+  let lensVisualKey = &quot;&quot;;
+
+  function updateLensModelVisuals() {
+    const isCross = hasShearModel();
+    const shear = currentShear();
+    const { gamma1, gamma2 } = currentShearComponents();
+    const shearAngle = currentShearAngle();
+    const axisRatio = currentAxisRatio();
+    const massAngle = finiteNumber(lensParameters.massAngle, 0);
+    const einsteinRadius = currentEinsteinRadius();
+    const normalized = THREE.MathUtils.clamp(shear / 0.30, 0, 1);
+    const contourColor = isCross ? palette.shear : palette.lens;
+
+    lensGalaxy.position.set(
+      displayX(finiteNumber(lensParameters.lensX, 0)),
+      finiteNumber(lensParameters.lensY, 0) * BETA_SCALE,
+      LENS_Z
+    );
+    lensFieldGroup.position.set(
+      displayX(finiteNumber(lensParameters.lensX, 0)),
+      finiteNumber(lensParameters.lensY, 0) * BETA_SCALE,
+      0
+    );
+
+    shearInput.disabled = !isCross;
+    shearControl.classList.toggle(&quot;is-disabled&quot;, !isCross);
+    shearValue.textContent = shear.toFixed(2);
+    modelExplanation.innerHTML = isCross
+      ? shear &lt; 0.01
+        ? t(&quot;modelShearZero&quot;)
+        : t(&quot;modelShear&quot;, { gamma: shear.toFixed(2), angle: shearAngle.toFixed(1) })
+      : axisRatio &lt; 0.995
+        ? t(&quot;modelElliptical&quot;, { q: axisRatio.toFixed(2), angle: massAngle.toFixed(1) })
+        : t(&quot;modelAxisymmetric&quot;);
+
+    const nextVisualKey = [
+      lensParameters.massModel,
+      axisRatio.toFixed(3),
+      massAngle.toFixed(2),
+      gamma1.toFixed(4),
+      gamma2.toFixed(4),
+      einsteinRadius.toFixed(3),
+      currentLanguage
+    ].join(&quot;:&quot;);
+    if (nextVisualKey === lensVisualKey) return;
+    lensVisualKey = nextVisualKey;
+    clearGroup(lensFieldGroup);
+
+    // Preserve the full mass-model orientation in the 3D representation. The
+    // red browser panel uses the same q / PA / shear inputs in a fast
+    // elliptical approximation; the adjacent blue panel remains the exact
+    // PyAutoLens result.
+    lensBody.scale.set(0.94, 0.94 * axisRatio, 0.3);
+    lensBody.rotation.z = THREE.MathUtils.degToRad(massAngle);
+    [0.86, 1.18, 1.5].forEach((radius, index) =&gt; {
+      const ellipticityStretch = 1 / Math.sqrt(axisRatio);
+      const ellipticitySqueeze = Math.sqrt(axisRatio);
+      const stretch = ellipticityStretch * (1 + normalized * (0.18 + index * 0.035));
+      const squeeze = ellipticitySqueeze * (1 - normalized * (0.13 + index * 0.025));
+      const contourAngle = THREE.MathUtils.degToRad(isCross ? shearAngle : massAngle);
+      lensFieldGroup.add(ellipseLoop(
+        radius * einsteinRadius * stretch,
+        radius * einsteinRadius * squeeze,
+        LENS_Z + 0.035 + index * 0.004,
+        contourColor,
+        0.22 + index * 0.035,
+        contourAngle
+      ));
+    });
+
+    if (isCross &amp;&amp; shear &gt; 0.001) {
+      const arrowLength = 0.26 + normalized * 0.38;
+      const phi = THREE.MathUtils.degToRad(shearAngle);
+      const major = new THREE.Vector3(Math.cos(phi), Math.sin(phi), 0);
+      const minor = new THREE.Vector3(-Math.sin(phi), Math.cos(phi), 0);
+      addShearArrow(major, major.clone().multiplyScalar(1.62).setZ(LENS_Z + 0.08), arrowLength);
+      addShearArrow(major.clone().negate(), major.clone().multiplyScalar(-1.62).setZ(LENS_Z + 0.08), arrowLength);
+      addShearArrow(minor.clone().negate(), minor.clone().multiplyScalar(2.05).setZ(LENS_Z + 0.08), arrowLength);
+      addShearArrow(minor, minor.clone().multiplyScalar(-2.05).setZ(LENS_Z + 0.08), arrowLength);
+    }
+
+    const labelText = isCross || axisRatio &lt; 0.995 || lensParameters.massModel !== &quot;isothermal_sph&quot;
+      ? t(&quot;lensPotentialDetailed&quot;, {
+          model: lensParameters.massModel,
+          q: axisRatio.toFixed(2),
+          angle: massAngle.toFixed(1),
+          thetaE: einsteinRadius.toFixed(2),
+          gamma: shear.toFixed(2),
+          shearAngle: shearAngle.toFixed(1)
+        })
+      : t(&quot;lensPotentialAxisymmetric&quot;, { thetaE: einsteinRadius.toFixed(2) });
+    const label = makeLabel(labelText, &quot;#111111&quot;, 4.7, 0.46);
+    label.position.set(0, -2.22, LENS_Z + 0.12);
+    lensFieldGroup.add(label);
+
+  }
+
+  const sourceGalaxy = new THREE.Group();
+  sourceGalaxy.position.z = SOURCE_Z + 0.05;
+  const sourceSprite = new THREE.Mesh(
+    new THREE.SphereGeometry(0.34, 40, 24),
+    new THREE.MeshBasicMaterial({ color: palette.source, transparent: true, opacity: 0.86 })
+  );
+  sourceSprite.scale.set(1.22, 0.78, 0.38);
+  const sourceHit = new THREE.Mesh(
+    new THREE.SphereGeometry(0.58, 18, 12),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
+  );
+  sourceGalaxy.add(sourceSprite, sourceHit);
+  world.add(sourceGalaxy);
+
+  function clearGroup(group) {
+    while (group.children.length) {
+      const item = group.children.pop();
+      item.traverse?.((child) =&gt; {
+        child.geometry?.dispose?.();
+        if (Array.isArray(child.material)) {
+          child.material.forEach((material) =&gt; {
+            material.map?.dispose?.();
+            material.dispose?.();
+          });
+        } else {
+          child.material?.map?.dispose?.();
+          child.material?.dispose?.();
+        }
+      });
+    }
+  }
+
+  function lensSolutions(betaX, betaY, fallbackAngle = 0) {
+    const beta = Math.hypot(betaX, betaY);
+    const directionX = beta &gt; 0.0001 ? betaX / beta : Math.cos(fallbackAngle);
+    const directionY = beta &gt; 0.0001 ? betaY / beta : Math.sin(fallbackAngle);
+    const einsteinRadius = currentEinsteinRadius();
+    const solutions = [
+      {
+        x: (beta + einsteinRadius) * directionX,
+        y: (beta + einsteinRadius) * directionY,
+        parity: 1
+      }
+    ];
+    if (beta &lt; einsteinRadius) {
+      const innerRadius = einsteinRadius - beta;
+      solutions.push({
+        x: -innerRadius * directionX,
+        y: -innerRadius * directionY,
+        parity: -1
+      });
+    }
+    return solutions;
+  }
+
+  function approximateLensMap(thetaX, thetaY) {
+    const einsteinRadius = currentEinsteinRadius();
+    const axisRatio = currentDeflectionAxisRatio();
+    const angle = THREE.MathUtils.degToRad(finiteNumber(lensParameters.massAngle, 0));
+    const cosine = Math.cos(angle);
+    const sine = Math.sin(angle);
+    const rotatedX = thetaX * cosine + thetaY * sine;
+    const rotatedY = -thetaX * sine + thetaY * cosine;
+    const ellipticalRadius = Math.sqrt(
+      axisRatio * rotatedX * rotatedX + rotatedY * rotatedY / axisRatio + 0.000001
+    );
+    const alphaRotatedX = einsteinRadius * axisRatio * rotatedX / ellipticalRadius;
+    const alphaRotatedY = einsteinRadius * rotatedY / axisRatio / ellipticalRadius;
+    let alphaX = alphaRotatedX * cosine - alphaRotatedY * sine;
+    let alphaY = alphaRotatedX * sine + alphaRotatedY * cosine;
+    const { gamma1, gamma2 } = currentShearComponents();
+    alphaX += gamma1 * thetaX + gamma2 * thetaY;
+    alphaY += gamma2 * thetaX - gamma1 * thetaY;
+    return { x: thetaX - alphaX, y: thetaY - alphaY };
+  }
+
+  function requiresNumericalLensSolutions() {
+    return currentDeflectionAxisRatio() &lt; 0.995 || currentShear() &gt; 0.0001;
+  }
+
+  function numericalLensSolutions(betaX, betaY) {
+    const einsteinRadius = currentEinsteinRadius();
+    const solutions = [];
+    const sourceRadius = Math.hypot(betaX, betaY);
+    const seedRadii = [0.24, 0.48, 0.74, 1.0, 1.28, 1.7]
+      .map((radius) =&gt; radius * einsteinRadius)
+      .concat([sourceRadius + einsteinRadius]);
+    const finiteDifference = Math.max(0.00001, einsteinRadius * 0.00008);
+    const maximumStep = Math.max(0.12, einsteinRadius * 0.42);
+
+    for (let angleIndex = 0; angleIndex &lt; 28; angleIndex += 1) {
+      const angle = 2 * Math.PI * angleIndex / 28;
+      for (const seedRadius of seedRadii) {
+        let x = seedRadius * Math.cos(angle);
+        let y = seedRadius * Math.sin(angle);
+
+        for (let iteration = 0; iteration &lt; 24; iteration += 1) {
+          const mapped = approximateLensMap(x, y);
+          const fx = mapped.x - betaX;
+          const fy = mapped.y - betaY;
+          const plusX = approximateLensMap(x + finiteDifference, y);
+          const minusX = approximateLensMap(x - finiteDifference, y);
+          const plusY = approximateLensMap(x, y + finiteDifference);
+          const minusY = approximateLensMap(x, y - finiteDifference);
+          const denominator = 2 * finiteDifference;
+          const jxx = (plusX.x - minusX.x) / denominator;
+          const jyx = (plusX.y - minusX.y) / denominator;
+          const jxy = (plusY.x - minusY.x) / denominator;
+          const jyy = (plusY.y - minusY.y) / denominator;
+          const determinant = jxx * jyy - jxy * jyx;
+          if (!Number.isFinite(determinant) || Math.abs(determinant) &lt; 0.00000001) break;
+          const deltaX = (jyy * fx - jxy * fy) / determinant;
+          const deltaY = (-jyx * fx + jxx * fy) / determinant;
+          const stepLength = Math.hypot(deltaX, deltaY);
+          const damping = stepLength &gt; maximumStep ? maximumStep / stepLength : 1;
+          x -= deltaX * damping;
+          y -= deltaY * damping;
+          if (stepLength * damping &lt; 0.000008) break;
+        }
+
+        const mapped = approximateLensMap(x, y);
+        const residual = Math.hypot(mapped.x - betaX, mapped.y - betaY);
+        if (
+          !Number.isFinite(residual) ||
+          residual &gt; 0.0008 ||
+          Math.hypot(x, y) &lt; 0.02 * einsteinRadius ||
+          Math.hypot(x, y) &gt; Math.max(3, 3.2 * einsteinRadius + sourceRadius)
+        ) continue;
+        const duplicateDistance = Math.max(0.002, 0.0025 * einsteinRadius);
+        if (solutions.some((solution) =&gt; Math.hypot(solution.x - x, solution.y - y) &lt; duplicateDistance)) continue;
+        solutions.push({ x, y, parity: 0 });
+      }
+    }
+
+    return solutions.sort((left, right) =&gt; Math.atan2(left.y, left.x) - Math.atan2(right.y, right.x));
+  }
+
+  function currentLensSolutions(betaX, betaY, fallbackAngle = 0) {
+    return requiresNumericalLensSolutions()
+      ? numericalLensSolutions(betaX, betaY)
+      : lensSolutions(betaX, betaY, fallbackAngle);
+  }
+
+  function ellipticalLightRadius(x, y, centerX, centerY, axisRatio, angleDegrees) {
+    const angle = THREE.MathUtils.degToRad(angleDegrees);
+    const deltaX = x - centerX;
+    const deltaY = y - centerY;
+    const major = deltaX * Math.cos(angle) + deltaY * Math.sin(angle);
+    const minor = -deltaX * Math.sin(angle) + deltaY * Math.cos(angle);
+    return Math.sqrt(major * major + (minor / Math.max(axisRatio, 0.2)) ** 2);
+  }
+
+  function sersicBrightness(radius, effectiveRadius, sersicIndex, intensity) {
+    const index = THREE.MathUtils.clamp(finiteNumber(sersicIndex, 1), 0.3, 8);
+    const radiusScale = Math.max(finiteNumber(effectiveRadius, 0.1), 0.001);
+    const coefficient = Math.max(0.6, 1.9992 * index - 0.3271);
+    return Math.max(0, finiteNumber(intensity, 1)) * Math.exp(
+      -coefficient * ((Math.max(radius, 0.000001) / radiusScale) ** (1 / index) - 1)
+    );
+  }
+
+  function sourceSamplingRadius() {
+    return sourceIsPoint()
+      ? THREE.MathUtils.clamp(currentSourceEffectiveRadius() * 2.2, 0.025, 0.07)
+      : THREE.MathUtils.clamp(currentSourceEffectiveRadius() * 1.45, 0.035, 0.28);
+  }
+
+  function sourceOffset(radius, angle) {
+    const orientation = THREE.MathUtils.degToRad(finiteNumber(lensParameters.sourceAngle, 0));
+    const major = radius * Math.cos(angle);
+    const minor = radius * currentSourceAxisRatio() * Math.sin(angle);
+    return {
+      x: major * Math.cos(orientation) - minor * Math.sin(orientation),
+      y: major * Math.sin(orientation) + minor * Math.cos(orientation)
+    };
+  }
+
+  function renderSyntheticObservation(betaX, betaY, centralSolutions) {
+    const beta = Math.hypot(betaX, betaY);
+    const isCross = hasShearModel();
+    const shear = currentShear();
+    const einsteinRadius = currentEinsteinRadius();
+    let special = null;
+
+    if (isCross &amp;&amp; shear &lt; 0.005 &amp;&amp; beta &lt; 0.055 * einsteinRadius) {
+      special = {
+        title: t(&quot;shearRingTitle&quot;),
+        caption: t(&quot;shearRingCaption&quot;),
+        asset: null,
+        isKeyframe: false
+      };
+    } else if (isCross &amp;&amp; centralSolutions.length === 4 &amp;&amp; beta &lt; 0.22 * einsteinRadius) {
+      special = {
+        title: t(&quot;crossTitle&quot;),
+        caption: t(&quot;crossCaption&quot;),
+        asset: null,
+        isKeyframe: false
+      };
+    } else if (!isCross &amp;&amp; beta &lt; 0.055 * einsteinRadius) {
+      special = {
+        title: t(&quot;ringTitle&quot;),
+        caption: t(&quot;ringCaption&quot;),
+        asset: null,
+        isKeyframe: false
+      };
+    } else if (!isCross &amp;&amp; Math.abs(beta - 0.244 * einsteinRadius) &lt; 0.045 * einsteinRadius) {
+      special = {
+        title: t(&quot;arcTitle&quot;),
+        caption: t(&quot;arcCaption&quot;),
+        asset: null,
+        isKeyframe: false
+      };
+    }
+
+    if (!special) {
+      special = {
+        title: isCross ? t(&quot;liveShearTitle&quot;) : t(&quot;liveSisTitle&quot;),
+        caption: isCross ? t(&quot;liveShearCaption&quot;) : t(&quot;liveSisCaption&quot;),
+        asset: null,
+        isKeyframe: false
+      };
+    }
+
+    observationPanel.hidden = false;
+    visualRow.classList.add(&quot;has-observation&quot;);
+    observationTitle.textContent = t(&quot;browserTitlePrefix&quot;) + special.title;
+    observationImage.hidden = true;
+    observationCanvas.hidden = false;
+    const lensLightDescription = lensParameters.lensLightEnabled
+      ? t(&quot;lensLightNote&quot;)
+      : t(&quot;lensLightDisabledNote&quot;);
+    observationCaption.textContent = special.caption + lensLightDescription + t(&quot;continuousNote&quot;);
+    observationImage.onerror = () =&gt; {
+      observationImage.hidden = true;
+      observationCanvas.hidden = false;
+      observationCaption.textContent = special.caption + t(&quot;fallbackNote&quot;);
+    };
+
+    const context = observationCanvas.getContext(&quot;2d&quot;);
+    const width = observationCanvas.width;
+    const height = observationCanvas.height;
+    const imageData = context.createImageData(width, height);
+    const thetaLimit = Math.max(
+      1.75,
+      einsteinRadius * 1.55 + beta * 0.3 + currentSourceEffectiveRadius()
+    );
+    const sourceAxisRatio = currentSourceAxisRatio();
+    const sourceAngle = finiteNumber(lensParameters.sourceAngle, 0);
+    const sourceIntensity = Math.max(0, finiteNumber(lensParameters.sourceIntensity, 1));
+    const sourceSersicIndex = finiteNumber(lensParameters.sourceSersicIndex, 1);
+    const lensLightAxisRatio = currentLensLightAxisRatio();
+    const lensLightAngle = finiteNumber(lensParameters.lensLightAngle, 0);
+    const lensLightIntensity = Math.max(0, finiteNumber(lensParameters.lensLightIntensity, 0.28));
+    const lensLightEffectiveRadius = THREE.MathUtils.clamp(
+      finiteNumber(lensParameters.lensLightEffectiveRadius, 0.58),
+      0.005,
+      3
+    );
+    const lensLightSersicIndex = finiteNumber(lensParameters.lensLightSersicIndex, 2.4);
+
+    for (let pixelY = 0; pixelY &lt; height; pixelY += 1) {
+      const thetaY = thetaLimit * (1 - 2 * pixelY / (height - 1));
+      for (let pixelX = 0; pixelX &lt; width; pixelX += 1) {
+        const thetaX = thetaLimit * (2 * pixelX / (width - 1) - 1);
+        const mapped = approximateLensMap(thetaX, thetaY);
+        const sourceRadius = ellipticalLightRadius(
+          mapped.x,
+          mapped.y,
+          betaX,
+          betaY,
+          sourceAxisRatio,
+          sourceAngle
+        );
+        const pointSigma = Math.max(currentSourceEffectiveRadius(), 0.018);
+        const lensedLight = sourceIsPoint()
+          ? sourceIntensity * Math.exp(-0.5 * (sourceRadius / pointSigma) ** 2)
+          : sersicBrightness(
+              sourceRadius,
+              currentSourceEffectiveRadius(),
+              sourceSersicIndex,
+              sourceIntensity
+            );
+        const lensRadius = ellipticalLightRadius(
+          thetaX,
+          thetaY,
+          0,
+          0,
+          lensLightAxisRatio,
+          lensLightAngle
+        );
+        const lensLight = lensParameters.lensLightEnabled
+          ? sersicBrightness(
+              lensRadius,
+              lensLightEffectiveRadius,
+              lensLightSersicIndex,
+              lensLightIntensity
+            )
+          : 0;
+        const lensAlpha = Math.min(0.94, 1 - Math.exp(-0.46 * lensLight));
+        const lensRed = 250 * (1 - lensAlpha) + 228 * lensAlpha;
+        const lensGreen = 250 * (1 - lensAlpha) + 145 * lensAlpha;
+        const lensBlue = 250 * (1 - lensAlpha) + 55 * lensAlpha;
+        const imageStrength = Math.min(0.99, 1 - Math.exp(-0.78 * lensedLight));
+        const offset = 4 * (pixelY * width + pixelX);
+        imageData.data[offset] = Math.round(lensRed * (1 - imageStrength) + 190 * imageStrength);
+        imageData.data[offset + 1] = Math.round(lensGreen * (1 - imageStrength) + 38 * imageStrength);
+        imageData.data[offset + 2] = Math.round(lensBlue * (1 - imageStrength) + 104 * imageStrength);
+        imageData.data[offset + 3] = 255;
+      }
+    }
+    context.putImageData(imageData, 0, 0);
+  }
+
+  function rayCurve(sourcePoint, thetaPoint) {
+    const observerPoint = new THREE.Vector3(0, 0, OBSERVER_Z);
+    const lensPoint = new THREE.Vector3(
+      displayX(finiteNumber(lensParameters.lensX, 0) + thetaPoint.x),
+      (finiteNumber(lensParameters.lensY, 0) + thetaPoint.y) * BETA_SCALE,
+      LENS_Z
+    );
+    const beforeLens = observerPoint.clone().lerp(lensPoint, (LENS_Z - 0.7) / LENS_Z);
+    const afterLens = lensPoint.clone().lerp(sourcePoint, 0.7 / (SOURCE_Z - LENS_Z));
+    return new THREE.CatmullRomCurve3(
+      [observerPoint, beforeLens, lensPoint, afterLens, sourcePoint],
+      false,
+      &quot;centripetal&quot;,
+      0.42
+    );
+  }
+
+  function addDashed(points, color, opacity = 0.8) {
+    const line = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(points),
+      new THREE.LineDashedMaterial({ color, dashSize: 0.16, gapSize: 0.11, transparent: true, opacity })
+    );
+    line.computeLineDistances();
+    annotationGroup.add(line);
+    return line;
+  }
+
+  function addSolid(points, color, opacity = 0.9) {
+    const line = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(points),
+      new THREE.LineBasicMaterial({ color, transparent: true, opacity })
+    );
+    annotationGroup.add(line);
+    return line;
+  }
+
+  function addImageMark(theta) {
+    const scale = IMAGE_Z / LENS_Z;
+    const lensX = finiteNumber(lensParameters.lensX, 0);
+    const lensY = finiteNumber(lensParameters.lensY, 0);
+    const mark = new THREE.Mesh(
+      new THREE.SphereGeometry(0.085, 22, 14),
+      new THREE.MeshBasicMaterial({ color: palette.image })
+    );
+    mark.position.set(
+      displayX(lensX + theta.x, BETA_SCALE * scale),
+      (lensY + theta.y) * BETA_SCALE * scale,
+      IMAGE_Z + 0.035
+    );
+    imageGroup.add(mark);
+  }
+
+  function addLensedImage(betaX, betaY) {
+    const sourceRadius = sourceSamplingRadius();
+    const imageScale = IMAGE_Z / LENS_Z * BETA_SCALE;
+    const lensX = finiteNumber(lensParameters.lensX, 0);
+    const lensY = finiteNumber(lensParameters.lensY, 0);
+    const positions = [];
+
+    if (requiresNumericalLensSolutions()) {
+      const gridSize = 190;
+      const thetaLimit = Math.max(1.65, currentEinsteinRadius() * 1.75 + Math.hypot(betaX, betaY));
+      for (let row = 0; row &lt; gridSize; row += 1) {
+        const thetaY = -thetaLimit + 2 * thetaLimit * row / (gridSize - 1);
+        for (let column = 0; column &lt; gridSize; column += 1) {
+          const thetaX = -thetaLimit + 2 * thetaLimit * column / (gridSize - 1);
+          const mapped = approximateLensMap(thetaX, thetaY);
+          const mappedSourceRadius = ellipticalLightRadius(
+            mapped.x,
+            mapped.y,
+            betaX,
+            betaY,
+            currentSourceAxisRatio(),
+            finiteNumber(lensParameters.sourceAngle, 0)
+          );
+          if (mappedSourceRadius &lt;= sourceRadius) {
+            positions.push(displayX(lensX + thetaX, imageScale), (lensY + thetaY) * imageScale, IMAGE_Z + 0.045);
+          }
+        }
+      }
+      const crossGeometry = new THREE.BufferGeometry();
+      crossGeometry.setAttribute(&quot;position&quot;, new THREE.Float32BufferAttribute(positions, 3));
+      imageGroup.add(new THREE.Points(
+        crossGeometry,
+        new THREE.PointsMaterial({
+          color: palette.image,
+          size: 0.045,
+          sizeAttenuation: true,
+          transparent: true,
+          opacity: 0.82,
+          depthWrite: false
+        })
+      ));
+      return;
+    }
+
+    const sampleCount = 1200;
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+    for (let index = 0; index &lt; sampleCount; index += 1) {
+      const radius = sourceRadius * Math.sqrt((index + 0.5) / sampleCount);
+      const angle = index * goldenAngle;
+      const offset = sourceOffset(radius, angle);
+      const sampleX = betaX + offset.x;
+      const sampleY = betaY + offset.y;
+      lensSolutions(sampleX, sampleY, angle).forEach((theta) =&gt; {
+        positions.push(displayX(lensX + theta.x, imageScale), (lensY + theta.y) * imageScale, IMAGE_Z + 0.045);
+      });
+    }
+
+    const imageGeometry = new THREE.BufferGeometry();
+    imageGeometry.setAttribute(&quot;position&quot;, new THREE.Float32BufferAttribute(positions, 3));
+    imageGroup.add(new THREE.Points(
+      imageGeometry,
+      new THREE.PointsMaterial({
+        color: palette.image,
+        size: 0.052,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.72,
+        depthWrite: false
+      })
+    ));
+
+    const boundaries = [[], []];
+    const boundarySamples = 180;
+    for (let index = 0; index &lt; boundarySamples; index += 1) {
+      const angle = 2 * Math.PI * index / boundarySamples;
+      const offset = sourceOffset(sourceRadius, angle);
+      const sampleX = betaX + offset.x;
+      const sampleY = betaY + offset.y;
+      lensSolutions(sampleX, sampleY, angle).forEach((theta, branch) =&gt; {
+        boundaries[branch].push(new THREE.Vector3(
+          displayX(lensX + theta.x, imageScale),
+          (lensY + theta.y) * imageScale,
+          IMAGE_Z + 0.05
+        ));
+      });
+    }
+
+    boundaries.forEach((points) =&gt; {
+      imageGroup.add(new THREE.LineLoop(
+        new THREE.BufferGeometry().setFromPoints(points),
+        new THREE.LineBasicMaterial({ color: 0x9f235f, transparent: true, opacity: 0.92 })
+      ));
+    });
+  }
+
+  function addAngleArc(origin, fromDirection, toDirection, radius, color, labelText) {
+    const from = fromDirection.clone().normalize();
+    const to = toDirection.clone().normalize();
+    const dot = THREE.MathUtils.clamp(from.dot(to), -1, 1);
+    const angle = Math.acos(dot);
+    if (angle &lt; 0.004) {
+      return;
+    }
+    const normal = new THREE.Vector3().crossVectors(from, to);
+    if (normal.lengthSq() &lt; 0.000001) {
+      return;
+    }
+    normal.normalize();
+    const points = [];
+    for (let index = 0; index &lt;= 30; index += 1) {
+      points.push(
+        from.clone().applyAxisAngle(normal, angle * index / 30).multiplyScalar(radius).add(origin)
+      );
+    }
+    addSolid(points, color, 0.98);
+    const middle = points[Math.floor(points.length / 2)].clone();
+    const label = makeLabel(labelText, &quot;#111111&quot;, 2.85, 0.48);
+    const outward = middle.clone().sub(origin).normalize().multiplyScalar(0.2);
+    label.position.copy(middle.add(outward));
+    annotationGroup.add(label);
+  }
+
+  function addDoubleArrow(startZ, endZ, y, labelText) {
+    const x = -2.72;
+    const middleZ = (startZ + endZ) / 2;
+    const half = (endZ - startZ) / 2;
+    const middle = new THREE.Vector3(x, y, middleZ);
+    const forward = new THREE.ArrowHelper(
+      new THREE.Vector3(0, 0, 1),
+      middle,
+      half,
+      palette.white,
+      0.16,
+      0.08
+    );
+    const backward = new THREE.ArrowHelper(
+      new THREE.Vector3(0, 0, -1),
+      middle,
+      half,
+      palette.white,
+      0.16,
+      0.08
+    );
+    forward.line.material.transparent = true;
+    forward.line.material.opacity = 0.62;
+    backward.line.material.transparent = true;
+    backward.line.material.opacity = 0.62;
+    annotationGroup.add(forward, backward);
+    const label = makeLabel(labelText, &quot;#111111&quot;, 2.4, 0.72);
+    label.position.set(x - 0.2, y - 0.4, middleZ);
+    annotationGroup.add(label);
+  }
+
+  let activeCurves = [];
+
+  function updateGeometry() {
+    clearGroup(rayGroup);
+    clearGroup(imageGroup);
+    clearGroup(annotationGroup);
+    clearGroup(photonGroup);
+    activeCurves = [];
+
+    const betaX = Number(xInput.value);
+    const betaY = Number(yInput.value);
+    const density = Number(densityInput.value);
+    const lensX = finiteNumber(lensParameters.lensX, 0);
+    const lensY = finiteNumber(lensParameters.lensY, 0);
+    root.dataset.lensX = String(lensX);
+    root.dataset.lensY = String(lensY);
+    root.dataset.sourceBetaX = String(betaX);
+    root.dataset.sourceBetaY = String(betaY);
+    const beta = Math.hypot(betaX, betaY);
+    updateLensModelVisuals();
+    const sourceCenter = new THREE.Vector3(displayX(lensX + betaX), (lensY + betaY) * BETA_SCALE, SOURCE_Z);
+    sourceGalaxy.position.set(sourceCenter.x, sourceCenter.y, SOURCE_Z + 0.05);
+    const sourceVisualScale = THREE.MathUtils.clamp(currentSourceEffectiveRadius() / 0.10, 0.5, 1.8);
+    sourceSprite.scale.set(
+      1.22 * sourceVisualScale,
+      1.22 * currentSourceAxisRatio() * sourceVisualScale,
+      0.38 * sourceVisualScale
+    );
+    sourceSprite.rotation.z = THREE.MathUtils.degToRad(finiteNumber(lensParameters.sourceAngle, 0));
+
+    const samples = Math.max(10, Math.floor(density / 2));
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+    const raySourceRadius = sourceSamplingRadius();
+    for (let index = 0; index &lt; samples; index += 1) {
+      const radius = raySourceRadius * Math.sqrt((index + 0.35) / samples);
+      const angle = index * goldenAngle;
+      const offset = sourceOffset(radius, angle);
+      const sampleX = betaX + offset.x;
+      const sampleY = betaY + offset.y;
+      const sampleSource = new THREE.Vector3(displayX(lensX + sampleX), (lensY + sampleY) * BETA_SCALE, SOURCE_Z);
+      const solutions = currentLensSolutions(sampleX, sampleY, angle);
+      solutions.forEach((theta, solutionIndex) =&gt; {
+        const curve = rayCurve(sampleSource, theta);
+        activeCurves.push(curve);
+        const points = curve.getPoints(72);
+        const line = new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(points),
+          new THREE.LineBasicMaterial({
+            color: solutionIndex === 0 ? palette.ray : 0x5277ad,
+            transparent: true,
+            opacity: solutionIndex === 0 ? 0.5 : 0.32,
+            depthWrite: false
+          })
+        );
+        rayGroup.add(line);
+      });
+    }
+
+    let centralSolutions = currentLensSolutions(betaX, betaY, Math.PI / 6);
+    if (centralSolutions.length === 0) centralSolutions = lensSolutions(betaX, betaY, Math.PI / 6);
+    addLensedImage(betaX, betaY);
+    renderSyntheticObservation(betaX, betaY, centralSolutions);
+    const primary = centralSolutions[0];
+    const primaryCurve = rayCurve(sourceCenter, primary);
+    activeCurves.unshift(primaryCurve);
+    rayGroup.add(new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(primaryCurve.getPoints(120)),
+      new THREE.LineBasicMaterial({
+        color: palette.rayHot,
+        transparent: true,
+        opacity: 0.92
+      })
+    ));
+
+    const observerPoint = new THREE.Vector3(0, 0, OBSERVER_Z);
+    const primaryImpact = new THREE.Vector3(displayX(lensX + primary.x), (lensY + primary.y) * BETA_SCALE, LENS_Z);
+    const extensionEnd = primaryImpact.clone().multiplyScalar(SOURCE_Z / LENS_Z);
+    extensionEnd.z = SOURCE_Z;
+
+    addDashed([observerPoint, sourceCenter], palette.straight, 0.82);
+    addDashed([observerPoint, extensionEnd], palette.extension, 0.78);
+
+    const betaDirection = sourceCenter.clone().sub(observerPoint);
+    const thetaDirection = primaryImpact.clone().sub(observerPoint);
+    addAngleArc(observerPoint, new THREE.Vector3(0, 0, 1), betaDirection, 1.28, palette.straight, t(&quot;betaAngle&quot;));
+    addAngleArc(observerPoint, new THREE.Vector3(0, 0, 1), thetaDirection, 1.9, palette.extension, t(&quot;thetaAngle&quot;));
+
+    const incoming = primaryImpact.clone().sub(observerPoint).normalize();
+    const outgoing = sourceCenter.clone().sub(primaryImpact).normalize();
+    addAngleArc(primaryImpact, incoming, outgoing, 1.0, palette.rayHot, t(&quot;deflectionAngle&quot;));
+
+    addDoubleArrow(OBSERVER_Z, LENS_Z, -2.28, &quot;Dₗ&quot;);
+    addDoubleArrow(LENS_Z, SOURCE_Z, -2.28, &quot;Dₗₛ&quot;);
+    addDoubleArrow(OBSERVER_Z, SOURCE_Z, -2.76, &quot;Dₛ&quot;);
+
+    xValue.textContent = betaX.toFixed(2);
+    yValue.textContent = betaY.toFixed(2);
+    densityValue.textContent = String(density);
+    const einsteinRadius = currentEinsteinRadius();
+    if (requiresNumericalLensSolutions()) {
+      const shear = currentShear();
+      const { gamma1, gamma2 } = currentShearComponents();
+      const shearAngle = currentShearAngle();
+      const axisRatio = currentDeflectionAxisRatio();
+      const formationDescription = axisRatio &lt; 0.995
+        ? t(&quot;formationElliptical&quot;)
+        : shear &lt; 0.01
+          ? t(&quot;formationAxisymmetric&quot;)
+          : t(&quot;formationSheared&quot;);
+      const solutionDescription = shear &lt; 0.01 &amp;&amp; axisRatio &gt;= 0.995 &amp;&amp; beta &lt; 0.01 * einsteinRadius
+        ? t(&quot;solutionsRing&quot;)
+        : t(&quot;solutionsCount&quot;, { count: centralSolutions.length });
+      status.innerHTML = t(&quot;statusShear&quot;, {
+        q: axisRatio.toFixed(2),
+        massAngle: finiteNumber(lensParameters.massAngle, 0).toFixed(1),
+        gamma: shear.toFixed(2),
+        g1: gamma1.toFixed(3),
+        g2: gamma2.toFixed(3),
+        angle: shearAngle.toFixed(1),
+        thetaE: einsteinRadius.toFixed(2),
+        betaX: betaX.toFixed(2),
+        betaY: betaY.toFixed(2),
+        betaNorm: (beta / einsteinRadius).toFixed(2),
+        formation: formationDescription,
+        solutions: solutionDescription
+      });
+    } else {
+      const thetaPlus = beta + einsteinRadius;
+      const thetaMinus = beta - einsteinRadius;
+      const imageDescription = beta &lt; 0.01 * einsteinRadius
+        ? t(&quot;sisRingDescription&quot;)
+        : beta &lt; 0.35 * einsteinRadius
+          ? t(&quot;sisArcDescription&quot;)
+          : beta &lt; einsteinRadius
+            ? t(&quot;sisDoubleDescription&quot;)
+            : t(&quot;sisSingleDescription&quot;);
+      const solutionText = beta &lt; einsteinRadius
+        ? t(&quot;sisTwoSolutions&quot;, { plus: thetaPlus.toFixed(2), minus: thetaMinus.toFixed(2) })
+        : t(&quot;sisOneSolution&quot;, { plus: thetaPlus.toFixed(2) });
+      status.innerHTML = t(&quot;statusSis&quot;, {
+        betaX: betaX.toFixed(2),
+        betaY: betaY.toFixed(2),
+        beta: beta.toFixed(2),
+        betaNorm: (beta / einsteinRadius).toFixed(2),
+        thetaE: einsteinRadius.toFixed(2),
+        description: imageDescription,
+        solutions: solutionText
+      });
+    }
+  }
+
+  const raycaster = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
+  const dragPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -SOURCE_Z);
+  const dragPoint = new THREE.Vector3();
+  const dragOffset = new THREE.Vector3();
+  let draggingSource = false;
+
+  function setPointer(event) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(pointer, camera);
+  }
+
+  stage.addEventListener(&quot;pointerdown&quot;, (event) =&gt; {
+    if (event.button !== 0) return;
+    setPointer(event);
+    if (raycaster.intersectObject(sourceHit, true).length === 0) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    draggingSource = true;
+    controls.enabled = false;
+    stage.classList.add(&quot;is-dragging&quot;);
+    renderer.domElement.setPointerCapture?.(event.pointerId);
+    if (raycaster.ray.intersectPlane(dragPlane, dragPoint)) {
+      dragOffset.copy(sourceGalaxy.position).sub(dragPoint);
+      dragOffset.z = 0;
+    }
+  }, true);
+
+  window.addEventListener(&quot;pointermove&quot;, (event) =&gt; {
+    if (!draggingSource) {
+      return;
+    }
+    setPointer(event);
+    if (!raycaster.ray.intersectPlane(dragPlane, dragPoint)) {
+      return;
+    }
+    dragPoint.add(dragOffset);
+    const lensX = finiteNumber(lensParameters.lensX, 0);
+    const lensY = finiteNumber(lensParameters.lensY, 0);
+    xInput.value = String(THREE.MathUtils.clamp(-dragPoint.x / BETA_SCALE - lensX, -1.5, 1.5));
+    yInput.value = String(THREE.MathUtils.clamp(dragPoint.y / BETA_SCALE - lensY, -1.5, 1.5));
+    updateGeometry();
+  });
+
+  function finishDrag() {
+    if (!draggingSource) {
+      return;
+    }
+    draggingSource = false;
+    controls.enabled = true;
+    stage.classList.remove(&quot;is-dragging&quot;);
+    saveState();
+  }
+  window.addEventListener(&quot;pointerup&quot;, finishDrag);
+  window.addEventListener(&quot;pointercancel&quot;, finishDrag);
+
+  function setCamera(position, target, up = new THREE.Vector3(0, 1, 0)) {
+    camera.up.copy(up);
+    camera.position.copy(position);
+    controls.target.copy(target);
+    camera.lookAt(target);
+    controls.update();
+  }
+
+  const views = {
+    perspective: () =&gt; setCamera(new THREE.Vector3(9.8, 7.0, -4.8), new THREE.Vector3(-0.62, 0, 5.1)),
+    side: () =&gt; setCamera(new THREE.Vector3(11.8, 0.4, 5.0), new THREE.Vector3(-0.62, 0, 5.0)),
+    observer: () =&gt; setCamera(new THREE.Vector3(0, 0, -4.2), new THREE.Vector3(0, 0, 5.3))
+  };
+  let currentView = &quot;perspective&quot;;
+
+  function saveState() {
+    window.openai?.setWidgetState?.({
+      modelContent: {
+        sourceX: Number(xInput.value),
+        sourceY: Number(yInput.value),
+        rayDensity: Number(densityInput.value),
+        lensModel: lensModelInput.value,
+        externalShear: Number(shearInput.value),
+        massModel: lensParameters.massModel,
+        lensRedshift: finiteNumber(lensParameters.lensRedshift, 0.5),
+        sourceRedshift: finiteNumber(lensParameters.sourceRedshift, 1.0),
+        lensX: finiteNumber(lensParameters.lensX, 0),
+        lensY: finiteNumber(lensParameters.lensY, 0),
+        massAxisRatio: currentAxisRatio(),
+        massAngle: finiteNumber(lensParameters.massAngle, 0),
+        shearGamma1: currentShearComponents().gamma1,
+        shearGamma2: currentShearComponents().gamma2,
+        einsteinRadius: currentEinsteinRadius(),
+        sourceModel: lensParameters.sourceModel,
+        sourceIntensity: finiteNumber(lensParameters.sourceIntensity, 1),
+        sourceEffectiveRadius: currentSourceEffectiveRadius(),
+        sourceSersicIndex: finiteNumber(lensParameters.sourceSersicIndex, 1),
+        sourceAxisRatio: currentSourceAxisRatio(),
+        sourceAngle: finiteNumber(lensParameters.sourceAngle, 0),
+        lensLightEnabled: Boolean(lensParameters.lensLightEnabled),
+        lensLightIntensity: finiteNumber(lensParameters.lensLightIntensity, 0.28),
+        lensLightEffectiveRadius: finiteNumber(lensParameters.lensLightEffectiveRadius, 0.58),
+        lensLightSersicIndex: finiteNumber(lensParameters.lensLightSersicIndex, 2.4),
+        lensLightAxisRatio: currentLensLightAxisRatio(),
+        lensLightAngle: finiteNumber(lensParameters.lensLightAngle, 0),
+        language: currentLanguage,
+        showPlanes: showPlanesInput.checked,
+        showRedshift: showRedshiftInput.checked,
+        showRays: showRaysInput.checked,
+        showAnnotations: showAnnotationsInput.checked
+      },
+      privateContent: { view: currentView }
+    }).catch(() =&gt; {});
+  }
+
+  const saved = window.openai?.widgetState || {};
+  const savedModel = saved.modelContent || {};
+  applyIncomingModel(savedModel);
+  if (Number.isFinite(Number(savedModel.sourceX))) xInput.value = String(savedModel.sourceX);
+  if (Number.isFinite(Number(savedModel.sourceY))) yInput.value = String(savedModel.sourceY);
+  if (Number.isFinite(Number(savedModel.rayDensity))) densityInput.value = String(savedModel.rayDensity);
+  if (typeof savedModel.showPlanes === &quot;boolean&quot;) showPlanesInput.checked = savedModel.showPlanes;
+  if (typeof savedModel.showRedshift === &quot;boolean&quot;) showRedshiftInput.checked = savedModel.showRedshift;
+  if (typeof savedModel.showRays === &quot;boolean&quot;) showRaysInput.checked = savedModel.showRays;
+  if (typeof savedModel.showAnnotations === &quot;boolean&quot;) showAnnotationsInput.checked = savedModel.showAnnotations;
+  currentView = saved.privateContent?.view in views ? saved.privateContent.view : &quot;perspective&quot;;
+
+  function chooseView(name) {
+    currentView = name;
+    observer.visible = name !== &quot;observer&quot;;
+    views[name]();
+    [&quot;perspective&quot;, &quot;side&quot;, &quot;observer&quot;].forEach((viewName) =&gt; {
+      const button = document.getElementById(&quot;lp3d-&quot; + viewName);
+      button.classList.toggle(&quot;btn-primary&quot;, viewName === name);
+    });
+    saveState();
+  }
+
+  document.getElementById(&quot;lp3d-perspective&quot;).addEventListener(&quot;click&quot;, () =&gt; chooseView(&quot;perspective&quot;));
+  document.getElementById(&quot;lp3d-side&quot;).addEventListener(&quot;click&quot;, () =&gt; chooseView(&quot;side&quot;));
+  document.getElementById(&quot;lp3d-observer&quot;).addEventListener(&quot;click&quot;, () =&gt; chooseView(&quot;observer&quot;));
+
+  [xInput, yInput, densityInput].forEach((input) =&gt; {
+    input.addEventListener(&quot;input&quot;, updateGeometry);
+    input.addEventListener(&quot;change&quot;, saveState);
+  });
+  shearInput.addEventListener(&quot;input&quot;, () =&gt; {
+    lensParameters.shearGamma1 = Math.max(0, finiteNumber(shearInput.value, 0));
+    lensParameters.shearGamma2 = 0;
+    if (lensParameters.shearGamma1 &gt; 0.0001) lensParameters.massModel = &quot;isothermal_shear&quot;;
+    lensModelInput.value = hasShearModel() ? &quot;cross&quot; : &quot;point&quot;;
+    updateGeometry();
+  });
+  shearInput.addEventListener(&quot;change&quot;, saveState);
+  lensModelInput.addEventListener(&quot;change&quot;, () =&gt; {
+    if (lensModelInput.value === &quot;cross&quot;) {
+      lensParameters.massModel = &quot;isothermal_shear&quot;;
+      if (currentShear() &lt; 0.0001) lensParameters.shearGamma1 = 0.18;
+    } else {
+      lensParameters.massModel = currentAxisRatio() &lt; 0.995 ? &quot;isothermal&quot; : &quot;isothermal_sph&quot;;
+      lensParameters.shearGamma1 = 0;
+      lensParameters.shearGamma2 = 0;
+    }
+    shearInput.value = String(currentShear());
+    updateGeometry();
+    saveState();
+  });
+  [showPlanesInput, showRedshiftInput, showRaysInput, showAnnotationsInput].forEach((input) =&gt; {
+    input.addEventListener(&quot;change&quot;, () =&gt; {
+      applyLayerVisibility();
+      saveState();
+    });
+  });
+
+  function resize() {
+    const width = Math.max(stage.clientWidth, 320);
+    const height = Math.max(stage.clientHeight, 420);
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(stage);
+
+  window.addEventListener(&quot;openai:set_globals&quot;, (event) =&gt; {
+    const globals = event.detail?.globals || {};
+    const model = globals.widgetState?.modelContent || {};
+    if (!globals.language &amp;&amp; Object.keys(model).length === 0) return;
+    const languageChanged = applyIncomingModel(model, globals);
+    if (Number.isFinite(Number(model.sourceX))) xInput.value = String(model.sourceX);
+    if (Number.isFinite(Number(model.sourceY))) yInput.value = String(model.sourceY);
+    if (Number.isFinite(Number(model.rayDensity))) densityInput.value = String(model.rayDensity);
+    if (typeof model.showPlanes === &quot;boolean&quot;) showPlanesInput.checked = model.showPlanes;
+    if (typeof model.showRedshift === &quot;boolean&quot;) showRedshiftInput.checked = model.showRedshift;
+    if (typeof model.showRays === &quot;boolean&quot;) showRaysInput.checked = model.showRays;
+    if (typeof model.showAnnotations === &quot;boolean&quot;) showAnnotationsInput.checked = model.showAnnotations;
+    if (languageChanged) applyLanguage(false);
+    applyLayerVisibility();
+    updateGeometry();
+  });
+
+  applyLanguage(false);
+  applyLayerVisibility();
+  chooseView(currentView);
+  updateGeometry();
+  resize();
+
+  function animate(time) {
+    controls.update();
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+&lt;/script&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) =&gt; {
+    lastPointerWasTouch =
+      event.type === &quot;pointerdown&quot; &amp;&amp; event.pointerType === &quot;touch&quot;;
+  };
+  const handleTouchClick = (event) =&gt; {
+    const isTouch = event.pointerType === &quot;touch&quot; || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch &amp;&amp; activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() =&gt; {
+      if (activeTrigger === trigger &amp;&amp; !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) =&gt; {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerdown&quot;, handlePointer);
+    document.removeEventListener(&quot;pointercancel&quot;, handlePointer);
+    document.removeEventListener(&quot;click&quot;, handleTouchClick);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerdown&quot;, handlePointer);
+  document.addEventListener(&quot;pointercancel&quot;, handlePointer);
+  document.addEventListener(&quot;click&quot;, handleTouchClick);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-tabs&quot;&gt;
+(() =&gt; {
+  const selector = &#x27;.nav[role=&quot;tablist&quot;] [role=&quot;tab&quot;]&#x27;;
+  const disabled = &#x27;:disabled,[aria-disabled=&quot;true&quot;]&#x27;;
+  const selectTab = (selected) =&gt; {
+    const panelId = selected.getAttribute(&quot;aria-controls&quot;);
+    for (const tab of selected.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;)) {
+      const active = tab === selected;
+      tab.classList.toggle(&quot;active&quot;, active);
+      tab.setAttribute(&quot;aria-selected&quot;, String(active));
+      const id = tab.getAttribute(&quot;aria-controls&quot;);
+      const panel = id &amp;&amp; document.getElementById(id);
+      if (panel != null) {
+        panel.hidden = id !== panelId;
+        if (!panel.hidden &amp;&amp; selected.id) {
+          panel.setAttribute(&quot;aria-labelledby&quot;, selected.id);
+        }
+      }
+    }
+  };
+  const interact = (event) =&gt; {
+    const tab = event.target?.closest?.(selector);
+    if (event.defaultPrevented || tab == null || tab.matches(disabled)) {
+      return;
+    }
+    if (event.type === &quot;click&quot;) {
+      selectTab(tab);
+      return;
+    }
+    const tabs = Array.from(
+      tab.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;),
+    ).filter((candidate) =&gt; !candidate.matches(disabled));
+    const current = tabs.indexOf(tab);
+    let next;
+    if (event.key === &quot;ArrowRight&quot; || event.key === &quot;ArrowDown&quot;) {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === &quot;ArrowLeft&quot; || event.key === &quot;ArrowUp&quot;) {
+      next = (current + tabs.length - 1) % tabs.length;
+    } else if (event.key === &quot;Home&quot;) {
+      next = 0;
+    } else if (event.key === &quot;End&quot;) {
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  };
+
+  for (const list of document.querySelectorAll(&#x27;.nav[role=&quot;tablist&quot;]&#x27;)) {
+    const selected =
+      list.querySelector(&#x27;[role=&quot;tab&quot;][aria-selected=&quot;true&quot;]&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;].active&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;]&#x27;);
+    if (selected != null) {
+      selectTab(selected);
+    }
+  }
+  document.addEventListener(&quot;click&quot;, interact);
+  document.addEventListener(&quot;keydown&quot;, interact);
+  window.addEventListener(&quot;pagehide&quot;, () =&gt; {
+    document.removeEventListener(&quot;click&quot;, interact);
+    document.removeEventListener(&quot;keydown&quot;, interact);
+  }, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+<script>(() => {
+  const frame = document.getElementById("codex-visualization");
+  if (!(frame instanceof HTMLIFrameElement)) {
+    return;
+  }
+  let viewportHeight = globalThis.innerHeight;
+  const storageKey = `codex:visualization-widget-state-v2:${JSON.stringify([
+    globalThis.location.pathname,
+    globalThis.location.search,
+  ])}`;
+  const parseState = (serializedState) => {
+    if (
+      typeof serializedState !== "string" ||
+      new TextEncoder().encode(serializedState).length > 16 * 1024
+    ) {
+      throw new TypeError(
+        "Widget state must be a JSON object of at most 16 KiB",
+      );
+    }
+    /** @type {unknown} */
+    const state = JSON.parse(serializedState);
+    if (
+      state == null ||
+      typeof state !== "object" ||
+      Array.isArray(state) ||
+      ("imageIds" in state &&
+        (!Array.isArray(state.imageIds) || state.imageIds.length > 0))
+    ) {
+      throw new TypeError("Widget state must be a JSON object");
+    }
+    const storedState = { modelContent: null, privateContent: null, ...state };
+    const canonicalState = JSON.stringify(
+      storedState,
+      (_key, /** @type {unknown} */ value) => {
+        if (typeof value === "number" && !Number.isFinite(value)) {
+          throw new TypeError("Widget state must contain finite numbers");
+        }
+        return value;
+      },
+    );
+    if (new TextEncoder().encode(canonicalState).length > 16 * 1024) {
+      throw new TypeError(
+        "Widget state must be a JSON object of at most 16 KiB",
+      );
+    }
+    return storedState;
+  };
+  let storage = null;
+  let state = null;
+  try {
+    const localStorage = globalThis.localStorage;
+    const probeKey = `${storageKey}:probe`;
+    localStorage.setItem(probeKey, "1");
+    localStorage.removeItem(probeKey);
+    storage = localStorage;
+    const savedState = storage.getItem(storageKey);
+    if (savedState != null) {
+      try {
+        state = parseState(savedState);
+      } catch {
+        // Invalid saved state does not disable future writes.
+      }
+    }
+  } catch {
+    storage = null;
+  }
+  const initialGlobals = {
+    widgetState: state,
+    statePersistence: storage == null ? "none" : "local",
+  };
+
+  const channel = new MessageChannel();
+  channel.port1.addEventListener("message", (event) => {
+    const data = event.data;
+    if (typeof data !== "object" || data == null) {
+      return;
+    }
+    if (data.type === "widget-state-write") {
+      if (!Number.isSafeInteger(data.id) || data.id <= 0) {
+        return;
+      }
+      let ok = false;
+      try {
+        if (storage != null) {
+          const state = parseState(data.state);
+          storage.setItem(storageKey, JSON.stringify(state));
+          ok = true;
+        }
+      } catch {
+        // Storage denial, quota limits, and invalid state return a failed receipt.
+      }
+      channel.port1.postMessage({
+        type: "widget-state-result",
+        id: data.id,
+        ok,
+      });
+      return;
+    }
+    if (data.type === "height") {
+      const height = data.height;
+      if (
+        typeof height === "number" &&
+        Number.isFinite(height) &&
+        height >= 0 &&
+        height <= 10_000
+      ) {
+        frame.style.height = Math.ceil(height) + "px";
+      }
+      return;
+    }
+    if (data.type === "scroll-to") {
+      const top = data.top;
+      if (
+        typeof top === "number" &&
+        Number.isFinite(top) &&
+        top >= 0 &&
+        globalThis.navigator.userActivation?.isActive === true
+      ) {
+        globalThis.scrollTo({
+          top: Math.ceil(
+            globalThis.scrollY + frame.getBoundingClientRect().top + top,
+          ),
+        });
+      }
+      return;
+    }
+    if (data.type === "open-external") {
+      const rawHref = data.href;
+      if (typeof rawHref !== "string") {
+        return;
+      }
+      let href;
+      try {
+        const url = new URL(rawHref, document.baseURI);
+        if (url.protocol !== "https:") {
+          return;
+        }
+        href = url.href;
+      } catch {
+        return;
+      }
+      if (globalThis.navigator.userActivation?.isActive === true) {
+        const anchor = document.createElement("a");
+        anchor.href = href;
+        anchor.rel = "noopener noreferrer";
+        anchor.target = "_blank";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      }
+      return;
+    }
+    if (data.type === "follow-up") {
+      const prompt = data.prompt;
+      if (
+        typeof prompt !== "string" ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      const title = data.title;
+      globalThis.prompt(typeof title === "string" ? title : prompt, prompt);
+    }
+  });
+  channel.port1.start();
+  const srcdoc = frame.dataset.srcdoc;
+  if (srcdoc == null) {
+    return;
+  }
+  globalThis.addEventListener("resize", () => {
+    const height = Number.parseFloat(frame.style.height);
+    if (!Number.isFinite(height) || height <= viewportHeight) {
+      frame.style.removeProperty("height");
+    }
+    viewportHeight = globalThis.innerHeight;
+    channel.port1.postMessage({ type: "measure" });
+  });
+  frame.addEventListener(
+    "load",
+    () => {
+      frame.contentWindow?.postMessage(
+        { type: "codex-visualization-initialize" },
+        "*",
+        [channel.port2],
+      );
+    },
+    { once: true },
+  );
+  // Match the trusted bootstrap element, not the same text in an authored title.
+  frame.srcdoc = srcdoc.replace(
+    '<script type="application/json" id="codex-visualization-widget-state">__CODEX_VISUALIZATION_WIDGET_STATE__<\/script>',
+    () =>
+      '<script type="application/json" id="codex-visualization-widget-state">' +
+      JSON.stringify(initialGlobals).replaceAll("<", "\\u003c") +
+      "<\/script>",
+  );
+  delete frame.dataset.srcdoc;
+})();
+</script>
+</body>
+</html>

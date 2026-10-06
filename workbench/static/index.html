@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>PyAutoLens Visual Workbench</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='7' y='7' width='50' height='50' fill='white' stroke='%230a0a0a' stroke-width='3'/%3E%3Cellipse cx='32' cy='32' rx='18' ry='9' fill='none' stroke='%23002fa7' stroke-width='4' transform='rotate(-18 32 32)'/%3E%3Crect x='28' y='28' width='8' height='8' fill='%23002fa7'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div>
+        <h1 data-i18n="app_title">PyAutoLens Visual Workbench</h1>
+        <p data-i18n="app_subtitle">Parameter-driven strong-lensing simulation, geometry and inference</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="language-toggle" class="button language-button" type="button" aria-label="切换到中文">中文</button>
+      <span id="engine-status" class="status-pill is-loading" data-i18n="connecting">Connecting to the compute engine…</span>
+      <button id="reset-all" class="button secondary" type="button" data-i18n="reset">Reset</button>
+      <button id="export-config" class="button primary" type="button" data-i18n="export">Export</button>
+      <label class="button secondary file-button">
+        <span data-i18n="import">Import</span>
+        <input id="import-config" type="file" accept="application/json,.json">
+      </label>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="control-panel" aria-label="Physical and observational parameters" data-i18n-aria-label="parameters_aria">
+      <div class="control-panel-intro">
+        <div>
+          <span class="eyebrow" data-i18n="controls_eyebrow">Experiment controls</span>
+          <h2 data-i18n="parameters">Experiment parameters</h2>
+        </div>
+        <span class="panel-index">01</span>
+      </div>
+      <p class="control-panel-summary" data-i18n="parameters_summary">Choose a configuration, then open only the parameter group you need. The sidebar, 3D drag controls and exact PyAutoLens image share one model state.</p>
+
+      <section class="preset-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow" data-i18n="starting_config">Starting configuration</span>
+            <h2 data-i18n="lens_presets">Lens presets</h2>
+          </div>
+        </div>
+        <div class="preset-grid">
+          <button type="button" class="preset-button" data-preset="ring" data-i18n="preset_ring">Einstein ring</button>
+          <button type="button" class="preset-button" data-preset="arc" data-i18n="preset_arc">Near-axis double arc</button>
+          <button type="button" class="preset-button" data-preset="double" data-i18n="preset_double">Off-axis double</button>
+          <button type="button" class="preset-button" data-preset="cross" data-i18n="preset_cross">Einstein cross</button>
+        </div>
+        <p class="hint" data-i18n="preset_hint">Presets update the shared model. Both the red preview and blue PyAutoLens image are recomputed; no preset image is loaded.</p>
+      </section>
+
+      <div id="parameter-groups"></div>
+    </aside>
+
+    <section class="stage-panel">
+      <div class="stage-header">
+        <div class="stage-heading">
+          <h2 data-i18n="workspace_title">Strong-lensing laboratory</h2>
+        </div>
+        <nav class="mode-tabs" aria-label="Workbench modes" data-i18n-aria-label="workspace_modes_aria">
+          <button type="button" class="mode-tab is-active" data-mode="geometry" data-i18n="nav_geometry">3D geometry</button>
+          <button type="button" class="mode-tab" data-mode="images" data-i18n="nav_images">Observation & diagnostics</button>
+          <button type="button" class="mode-tab" data-mode="science" data-i18n="nav_science">Research products</button>
+          <button type="button" class="mode-tab" data-mode="fit" data-i18n="nav_fit">Quick fit</button>
+        </nav>
+      </div>
+
+      <section id="mode-geometry" class="mode-view geometry-view is-active">
+        <div class="geometry-heading">
+          <div>
+            <span class="eyebrow" data-i18n="geometry_eyebrow">Teaching geometry</span>
+            <h2 data-i18n="geometry_title">3D light paths and redshift planes</h2>
+          </div>
+          <p data-i18n="geometry_description">Source position is synchronized with the sidebar. The blue science image comes from the same PyAutoLens calculation; ray count changes display density only.</p>
+        </div>
+        <iframe id="geometry-frame" title="3D gravitational-lensing geometry" data-i18n-title="geometry_iframe_title" loading="eager" src="/lesson/3d"></iframe>
+      </section>
+
+      <section id="mode-images" class="mode-view" hidden>
+        <div class="stage-toolbar">
+          <div id="product-tabs" class="product-tabs" role="tablist" aria-label="Image products" data-i18n-aria-label="image_products_aria"></div>
+          <div class="display-tools">
+            <label>
+              <span data-i18n="colour_map">Colour map</span>
+              <select id="colour-map">
+                <option value="autoarray" selected data-i18n="cmap_autoarray">AutoArray science (blue→green→yellow→red)</option>
+                <option value="paper" data-i18n="cmap_paper">White teaching view</option>
+                <option value="magma">Magma</option>
+                <option value="viridis">Viridis</option>
+                <option value="gray" data-i18n="cmap_gray">Grayscale</option>
+              </select>
+            </label>
+            <label class="check-label"><input id="display-log" type="checkbox"> <span data-i18n="log_stretch">Log stretch</span></label>
+            <label class="check-label"><input id="show-mask" type="checkbox"> <span data-i18n="mask_overlay">Mask overlay</span></label>
+          </div>
+        </div>
+
+        <div class="science-stage">
+          <div class="canvas-column">
+            <div class="plot-frame">
+              <canvas id="science-canvas" width="720" height="720" aria-label="Live gravitational-lensing image" data-i18n-aria-label="science_canvas_aria"></canvas>
+              <div id="x-axis-ticks" class="axis-ticks axis-ticks-x" aria-hidden="true"></div>
+              <div id="y-axis-ticks" class="axis-ticks axis-ticks-y" aria-hidden="true"></div>
+              <div class="axis-label axis-x" data-i18n="axis_x">x (arcsec)</div>
+              <div class="axis-label axis-y" data-i18n="axis_y">y (arcsec)</div>
+            </div>
+            <div class="colourbar-wrap" aria-label="Numeric colour bar for the current image" data-i18n-aria-label="colourbar_aria">
+              <div id="colourbar" class="colourbar"></div>
+              <div id="colourbar-labels" class="colourbar-labels"><span id="range-min">0</span><span id="range-max">1</span></div>
+              <div id="colourbar-unit" class="colourbar-unit">计数率（e⁻ s⁻¹）</div>
+            </div>
+          </div>
+
+          <aside class="diagnostic-panel">
+            <span class="eyebrow" data-i18n="current_result">Current result</span>
+            <h2 id="product-title">合成观测图</h2>
+            <p id="product-description">前景透镜光、被透镜背景源、PSF 和所选噪声共同构成的观测图。</p>
+            <h3 class="product-download-heading" data-i18n="download_current_heading">Download current image</h3>
+            <p class="product-download-help" data-i18n="download_current_help">PNG downloads a high-resolution preview with a shorter side of at least 1200 px; FITS and CSV retain the native numeric data arrays.</p>
+            <div class="product-download-actions" role="group" aria-label="Download current image" data-i18n-aria-label="download_current_aria">
+              <button id="download-current-png" type="button" class="button compact" data-i18n="download_png">PNG</button>
+              <button id="download-current-fits" type="button" class="button compact" data-i18n="download_fits">FITS</button>
+              <button id="download-current-csv" type="button" class="button compact" data-i18n="download_csv">CSV</button>
+            </div>
+            <dl class="metric-grid">
+              <div><dt data-i18n="metric_engine">Engine</dt><dd id="metric-engine">预览</dd></div>
+              <div><dt data-i18n="metric_time">Runtime</dt><dd id="metric-time">—</dd></div>
+              <div><dt data-i18n="metric_fov">Field of view</dt><dd id="metric-fov">—</dd></div>
+              <div><dt data-i18n="metric_shape">Image shape</dt><dd id="metric-shape">—</dd></div>
+            </dl>
+            <div class="coordinate-note">
+              <strong data-i18n="coordinate_title">Coordinate convention</strong>
+              <p data-i18n-html="coordinate_text">界面使用屏幕直觉的 x 向右、y 向上；送入 PyAutoLens 时自动转换为其 <code>(y, x)</code> 顺序。</p>
+            </div>
+            <div id="error-box" class="error-box" hidden></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="mode-science" class="mode-view science-view" hidden>
+        <div class="science-heading">
+          <div>
+            <span class="eyebrow" data-i18n="science_eyebrow">Scientific diagnostics</span>
+            <h2 data-i18n="science_title">Research-grade data products</h2>
+          </div>
+          <div class="science-library-controls">
+            <label>
+              <span class="sr-only" data-i18n="science_group">Product group</span>
+              <select id="science-group-select"></select>
+            </label>
+            <button id="download-science-group" type="button" class="button secondary compact" data-i18n="download_group">Download group ZIP</button>
+            <button id="download-science-all" type="button" class="button primary compact" data-i18n="download_all">Download all products ZIP</button>
+          </div>
+        </div>
+        <p class="science-library-description" data-i18n="science_description">Choose observation, model, diagnostic and lens-physics products derived from one parameter state. Workflows that need a dataset or completed fit state their prerequisites explicitly.</p>
+        <div id="science-grid" class="science-grid" aria-live="polite"></div>
+        <section class="workflow-library" aria-labelledby="workflow-library-title">
+          <h3 id="workflow-library-title" data-i18n="workflow_title">Research workflows requiring extra data or fit results</h3>
+          <div id="workflow-catalog" class="workflow-catalog"></div>
+        </section>
+      </section>
+
+      <section id="mode-fit" class="mode-view fit-view" hidden>
+        <div class="fit-layout">
+          <div class="fit-intro">
+            <span class="eyebrow" data-i18n="fit_eyebrow">Interactive inference</span>
+            <h2 data-i18n="fit_title">Recover parameters from the current simulation</h2>
+            <p data-i18n="fit_description">Freeze the current PyAutoLens observation as data, alter the sidebar values as an initial guess, then repeatedly evaluate the same forward model.</p>
+            <div class="fit-actions">
+              <button id="fit-freeze" type="button" class="button primary" data-i18n="fit_freeze">① Freeze observation</button>
+              <button id="fit-run" type="button" class="button primary" disabled data-i18n="fit_run">② Run quick fit</button>
+              <button id="fit-apply" type="button" class="button secondary" disabled data-i18n="fit_apply">Apply fit</button>
+            </div>
+            <div id="fit-snapshot-status" class="fit-status" data-i18n="fit_unfrozen">No dataset has been frozen.</div>
+            <div class="fit-warning">
+              <strong data-i18n="fit_boundary_title">Scope</strong>
+              <p data-i18n="fit_boundary">This bounded least-squares fit is for interaction and teaching; it is not full PyAutoFit / Nautilus posterior inference. Research use also requires priors, a search, residual checks and uncertainties.</p>
+            </div>
+          </div>
+          <div class="fit-settings">
+            <h3 data-i18n="free_parameters">Free parameters</h3>
+            <div id="fit-parameter-list" class="fit-parameter-list">
+              <label><input type="checkbox" value="source_x" checked> 源星系位置 βx（源平面）</label>
+              <label><input type="checkbox" value="source_y" checked> 源星系位置 βy（源平面）</label>
+              <label><input type="checkbox" value="einstein_radius" checked> 爱因斯坦半径</label>
+              <label><input type="checkbox" value="mass_axis_ratio"> 质量轴比</label>
+              <label><input type="checkbox" value="mass_angle"> 质量位置角</label>
+              <label><input type="checkbox" value="shear_gamma_1"> 外部剪切 γ₁</label>
+              <label><input type="checkbox" value="shear_gamma_2"> 外部剪切 γ₂</label>
+            </div>
+            <label class="fit-budget"><span data-i18n="max_evaluations">Maximum evaluations</span> <input id="fit-max-evaluations" type="number" min="8" max="60" step="1" value="28"></label>
+          </div>
+          <div class="fit-results">
+            <div class="section-heading-static">
+              <div><span class="eyebrow" data-i18n="fit_result_eyebrow">Fit result</span><h3 data-i18n="fit_results">Recovered parameters</h3></div>
+              <span id="fit-runtime">—</span>
+            </div>
+            <div id="fit-results-body" class="fit-results-body"><p data-i18n="fit_results_placeholder">Initial and recovered values will appear here after fitting.</p></div>
+          </div>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span data-i18n="local_only">Runs locally · parameters and images are not uploaded · system sans-serif fonts</span>
+    <span id="footer-state" data-i18n="waiting_first_result">Waiting for the first PyAutoLens result</span>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

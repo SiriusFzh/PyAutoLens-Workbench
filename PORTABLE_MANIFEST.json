@@ -1,0 +1,33 @@
+{
+  "name": "PyAutoLens Visual Workbench",
+  "bundle_date": "2026-10-06",
+  "autolens_version": "2026.9.15.1",
+  "python_requires": ">=3.12",
+  "entrypoints": {
+    "macos": "workbench/START_MAC.command",
+    "windows": "workbench/START_WINDOWS.cmd"
+  },
+  "capabilities": {
+    "endpoint": "/api/capabilities",
+    "product_catalog_endpoint": "/api/catalog",
+    "registry": "workbench/capability_registry.py",
+    "product_registry": "workbench/product_registry.py",
+    "product_exporter": "workbench/product_export.py",
+    "coverage_report": "workbench/PYAUTOLENS_COVERAGE.md",
+    "research_product_catalog": "workbench/RESEARCH_PRODUCT_CATALOG.md",
+    "live_forward_products": 31,
+    "individual_export_formats": [
+      "png",
+      "fits",
+      "csv"
+    ],
+    "bundle_export_formats": [
+      "png",
+      "fits"
+    ],
+    "is_full_pyautolens_frontend": false
+  },
+  "version": "1.0.0",
+  "default_language": "en",
+  "distribution": "one local web application for macOS and Windows"
+}
