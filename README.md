@@ -289,14 +289,13 @@ The usual address is `http://127.0.0.1:8765/`. If occupied, the server selects a
 - With Poisson noise disabled, data and the generating model match, so residuals and χ² are near zero. Actual model-fit quality requires a fitting workflow and independent data.
 - Scientific colours are quantitative false colours. Magnification can become very large near critical curves; residual flux fractions require care at low signal-to-noise.
 
-See the [capability coverage report](workbench/PYAUTOLENS_COVERAGE.md) and [research product catalog](workbench/RESEARCH_PRODUCT_CATALOG.md) for more detail; those extended reports are currently in Chinese.
-
 ## Architecture and local API
 
 ```text
 PyAutoLens-Workbench/
 ├── README.md / README.zh-CN.md       Bilingual project documentation
 ├── LICENSE / THIRD_PARTY_NOTICES.md
+├── docs/screenshots/             README screenshots; not required at runtime
 ├── start.py                      Shared cross-platform launcher
 ├── lessons/                      3D teaching scene
 └── workbench/

@@ -289,14 +289,13 @@ py -3.12 -m venv .venv
 - 关闭泊松噪声时，同一生成模型的观测与模型相同，因此残差和 χ² 接近零。检验实际拟合质量应使用拟合工作流与独立数据。
 - 彩色科学图是定量伪彩色。放大率在临界曲线附近可能极大，残差通量分数在低信噪比区域应谨慎解释。
 
-完整细节见 [能力覆盖报告](workbench/PYAUTOLENS_COVERAGE.md) 和 [科研产品目录](workbench/RESEARCH_PRODUCT_CATALOG.md)（目前为中文）。
-
 ## 架构与本地 API
 
 ```text
 PyAutoLens-Workbench/
 ├── README.md / README.zh-CN.md       双语项目说明
 ├── LICENSE / THIRD_PARTY_NOTICES.md
+├── docs/screenshots/             README 截图；运行时不读取
 ├── start.py                      统一跨平台启动器
 ├── lessons/                      三维教学场景
 └── workbench/

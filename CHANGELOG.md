@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Remove duplicate start instructions, portable metadata, publication draft and legacy audit reports; bilingual READMEs remain the source of usage and scope documentation.
+- Build ZIPs from an explicit file list so development-only files cannot be included accidentally.
+
 ## v1.0.0 — 2026-10-06
 
 First public release of the independent PyAutoLens Visual Workbench.
