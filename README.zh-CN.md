@@ -6,7 +6,11 @@
 
 由 [SiriusFzh](https://github.com/SiriusFzh) 开发和维护，支持 **macOS 与 Windows**，提供 **中文 / English 界面**。科学计算在本机 Python 环境中完成，界面通过 localhost 接收结果。
 
-> 本项目使用 PyAutoLens 作为透镜物理计算引擎。PyAutoLens 及其科学方法的贡献属于原开发团队。本工作台是独立的社区项目，目前没有获得官方背书，也未合并到原仓库。
+> 本项目使用 PyAutoLens 作为透镜物理计算引擎。PyAutoLens 及其科学方法的贡献属于原开发团队。
+>
+> **已被 PyAutoLens 官方社区目录收录。** 2026 年 10 月 7 日，PyAutoLabs 将本工作台作为教学与正向模拟工具收录到 [Community contributions 页面](https://github.com/PyAutoLabs/PyAutoLens/blob/main/docs/general/community.md)。[维护者回复](https://github.com/orgs/PyAutoLabs/discussions/32#discussioncomment-18793010)确认，他们查看了仓库的代码、打包方式和许可证后完成了收录。
+>
+> 本工作台仍由 SiriusFzh 独立维护。官方社区页面明确说明，所列项目不由 PyAutoLabs 背书、测试或提供技术支持；社区收录不等同于软件质量认证，也不代表工作台代码已并入上游应用。
 
 ## 这个工作台能做什么？
 
@@ -369,4 +373,4 @@ python build_portable.py
 
 欢迎提交使用问题、科学反馈、翻译和小范围 PR。报告问题时请包含系统、Python / 依赖版本、复现步骤、参数 JSON 和错误信息。计划接入新的科学工作流时，请先说明输入数据、物理假设、验证方法和与 PyAutoLens API 的对应关系。
 
-工作台原创代码以 [MIT License](LICENSE) 发布，版权署名为 SiriusFzh。第三方组件保留原许可证，见 [第三方说明](THIRD_PARTY_NOTICES.md)。GitHub 发行版使用系统字体，不分发原便携包中另行授权的 Satoshi / MiSans 字体文件。本项目不代表 PyAutoLabs 官方维护或认可。
+工作台原创代码以 [MIT License](LICENSE) 发布，版权署名为 SiriusFzh。第三方组件保留原许可证，见 [第三方说明](THIRD_PARTY_NOTICES.md)。GitHub 发行版使用系统字体，不分发原便携包中另行授权的 Satoshi / MiSans 字体文件。本项目已被官方社区目录收录，仍由 SiriusFzh 独立维护。

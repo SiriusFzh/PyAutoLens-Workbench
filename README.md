@@ -6,7 +6,11 @@ An independent community visual workbench powered by [PyAutoLens](https://github
 
 Developed and maintained by [SiriusFzh](https://github.com/SiriusFzh). Supports **macOS and Windows**, with a **Chinese / English interface**. Python performs the scientific calculations locally and serves results over localhost.
 
-> PyAutoLens supplies the lens-physics engine. Credit for PyAutoLens and its scientific methods belongs to the upstream developers. This is an independent community project; it is not currently endorsed by the upstream team or merged into their repository.
+> PyAutoLens supplies the lens-physics engine. Credit for PyAutoLens and its scientific methods belongs to the upstream developers.
+>
+> **Listed in the official PyAutoLens community directory.** On 7 October 2026, PyAutoLabs added this workbench to its [Community contributions page](https://github.com/PyAutoLabs/PyAutoLens/blob/main/docs/general/community.md) as a teaching and forward-simulation tool. The [maintainer's reply](https://github.com/orgs/PyAutoLabs/discussions/32#discussioncomment-18793010) confirms the listing after a review of the repository's code, packaging and licensing.
+>
+> The workbench remains independently maintained by SiriusFzh. As the community page states, listed projects are not endorsed, tested or supported by PyAutoLabs; inclusion is not software certification or integration into the upstream application.
 
 ## What can you do with it?
 
@@ -369,4 +373,4 @@ For research using PyAutoLens, follow its official guidance and cite the relevan
 
 Usage reports, scientific feedback, translations and focused pull requests are welcome. Include the OS, Python / dependency versions, reproduction steps, parameter JSON and error messages in bug reports. For a new scientific workflow, describe its input data, physical assumptions, validation plan and corresponding PyAutoLens APIs first.
 
-Original workbench code is released under the [MIT License](LICENSE), credited to SiriusFzh. Third-party components retain their own licenses; see [third-party notices](THIRD_PARTY_NOTICES.md). The GitHub distribution uses system fonts and does not redistribute the separately licensed Satoshi / MiSans fonts from the supplied portable bundle. This project does not imply official maintenance or endorsement by PyAutoLabs.
+Original workbench code is released under the [MIT License](LICENSE), credited to SiriusFzh. Third-party components retain their own licenses; see [third-party notices](THIRD_PARTY_NOTICES.md). The GitHub distribution uses system fonts and does not redistribute the separately licensed Satoshi / MiSans fonts from the supplied portable bundle. The project is listed in the official community directory and independently maintained by SiriusFzh.
